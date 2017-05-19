@@ -528,7 +528,11 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#_glossary">2. Glossary</a></li>
-<li><a href="#_features">3. Features</a></li>
+<li><a href="#_features">3. Features</a>
+<ul class="sectlevel2">
+<li><a href="#_flaky_tests">3.1. Flaky tests</a></li>
+</ul>
+</li>
 <li><a href="#_integration">4. Integration</a>
 <ul class="sectlevel2">
 <li><a href="#_testng">4.1. TestNG</a></li>
@@ -621,8 +625,8 @@ sudo apt-get install allure-commandline</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">brew tap qatools/formulas
-brew install allure-commandline</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">brew tap qameta/allure
+brew install allure</code></pre>
 </div>
 </div>
 </div>
@@ -634,7 +638,7 @@ brew install allure-commandline</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Download the latest version as zip archive from <a href="https://github.com/allure-framework/allure2/releases">releases page</a>.</p>
+<p>Download the latest version as zip archive from <a href="https://bintray.com/qameta/generic/allure2">bintray</a>.</p>
 </li>
 <li>
 <p>Unpack the archive to allure-commandline directory.</p>
@@ -644,6 +648,9 @@ brew install allure-commandline</code></pre>
 </li>
 <li>
 <p>Use <strong>allure.bat</strong> for Windows or <strong>allure</strong> for other Unix platforms.</p>
+</li>
+<li>
+<p>Add <strong>allure</strong> to system PATH.</p>
 </li>
 </ol>
 </div>
@@ -668,7 +675,7 @@ available. Current version must be printed out:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">$ allure --version
-2.0-SNAPSHOT</code></pre>
+2.0.1</code></pre>
 </div>
 </div>
 </div>
@@ -951,6 +958,33 @@ set of custom steps, among other features. All features are supported by Java te
 Java examples here. For details on how a particular adapter works with the test framework of your choice,
 refer to the adapter guide.</p>
 </div>
+<div class="sect2">
+<h3 id="_flaky_tests">3.1. Flaky tests</h3>
+<div class="paragraph">
+<p>In a real life not all of your tests are stable and always green or always red.  A test might start to "blink" i.e. it fails from time-to-time without any obvious reason.
+You could disable such a test, that is a trivial solution. However what if you do not want to do that?
+Say you would like to get more details on possible reasons or the test is so critical that even being flaky it provides helpful information?
+You have an option now to mark such tests in a special way, so resulting report will clearly show them as unstable:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Flaky</span>
+<span class="directive">public</span> <span class="type">void</span> aTestWhichFailsFromTimeToTime {
+     ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is what you get in the report in case if such test failed:</p>
+</div>
+<div class="paragraph">
+<p>+
+image::flaky_failed.png[A failed test marked as flaky]</p>
+</div>
+<div class="paragraph">
+<p>Additional note - you could mark a whole test class as flaky as well.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -964,10 +998,10 @@ refer to the adapter guide.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Download and uzip the latest <a href="https://dl.bintray.com/qameta/generic/io/qameta/allure/allure/2.0-BETA6/allure-2.0-BETA6.zip">allure-commandline</a></p>
+<p>Setup latest <a href="https://docs.qameta.io/allure/latest/#_installing_a_commandline">allure-commandline</a> version.</p>
 </li>
 <li>
-<p>Add <strong>allure-java</strong> dependency. Note, you may need to build <a href="https://github.com/allure-framework/allure-java">allure-java</a> manually to get a SNAPSHOT version of the artefact</p>
+<p>Add <strong>allure-testng</strong> dependency.</p>
 </li>
 <li>
 <p>Add <strong>aspectjweaver</strong> dependency and its properties.</p>
@@ -992,7 +1026,7 @@ refer to the adapter guide.</p>
     <span class="tag">&lt;compiler.plugin.version&gt;</span>3.6.0<span class="tag">&lt;/compiler.plugin.version&gt;</span>
     <span class="tag">&lt;java.version&gt;</span>1.8<span class="tag">&lt;/java.version&gt;</span>
     <span class="tag">&lt;surefire.plugin.version&gt;</span>2.19.1<span class="tag">&lt;/surefire.plugin.version&gt;</span>
-    <span class="tag">&lt;allure.version&gt;</span>2.0-SNAPSHOT<span class="tag">&lt;/allure.version&gt;</span>
+    <span class="tag">&lt;allure.version&gt;</span>2.0-BETA6<span class="tag">&lt;/allure.version&gt;</span>
     <span class="tag">&lt;aspectj.version&gt;</span>1.8.10<span class="tag">&lt;/aspectj.version&gt;</span>
     <span class="tag">&lt;allure.results.directory&gt;</span>
         ${project.build.directory}/allure-results
@@ -1106,7 +1140,7 @@ configurations {
 
 dependencies {
     agent <span class="string"><span class="delimiter">&quot;</span><span class="content">org.aspectj:aspectjweaver:1.8.10</span><span class="delimiter">&quot;</span></span>
-    compile <span class="string"><span class="delimiter">&quot;</span><span class="content">io.qameta.allure:allure-testng:1.0-SNAPSHOT</span><span class="delimiter">&quot;</span></span>
+    compile <span class="string"><span class="delimiter">&quot;</span><span class="content">io.qameta.allure:allure-testng:2.0-BETA6</span><span class="delimiter">&quot;</span></span>
 }
 
 test.doFirst {
@@ -1155,24 +1189,40 @@ They can: be parametrized, make checks, have nested steps, and create attachment
 </div>
 <div class="paragraph">
 <p>In order to define steps in Java code, you need to annotate the respective methods with <strong>@Step</strong> annotation.
-When not specified, the step name is equal to the annotated method name converted to human-readable format.
-To define an explicit step name, pass your own <strong>String</strong> argument:</p>
+When not specified, the step name is equal to the annotated method name converted to human-readable format.</p>
+</div>
+<div class="paragraph">
+<p>Note that steps' mechanics was revised and now it supports smart fields' analysis.
+In Allure 1 users had to specify indexes to refer which args' values they want to inject into step.
+Allure 2 uses reflection-based approach, which provides deep fields' extraction by their names.</p>
+</div>
+<div class="paragraph">
+<p>Assuming that you have the following entity:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Step</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Open page</span><span class="delimiter">&quot;</span></span>)
-<span class="directive">public</span> <span class="type">void</span> openPageByAddress(<span class="predefined-type">String</span> pageAddress) {
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">User</span> {
+
+     <span class="directive">private</span> <span class="predefined-type">String</span> name;
+     <span class="directive">private</span> <span class="predefined-type">String</span> password;
      ...
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Method&#8217;s arguments will be automatically parsed and displayed next to the step name:</p>
+<p>You can access these fields' values directly by name:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="txt">Open page [ pageAddress: value ]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Step</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Type {user.name} / {user.password}.</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">void</span> loginWith(User user) {
+     ...
+}</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><strong>Arrays</strong> and <strong>Collections</strong> are supported as well.
+So you don&#8217;t need to explicitly override <strong>toString()</strong> for your custom objects anymore.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1208,6 +1258,47 @@ Attachments could be added to either individual steps or the entire test case.</
     }
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Note that Allure 2 also supports async attachments, which are especially useful with heavy files, like videos or HARs.
+So you don&#8217;t need to block test execution and wait until resources are finalized.</p>
+</div>
+<div class="listingblock">
+<div class="title">BaseListener.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">BaseListener</span> <span class="directive">implements</span> IInvokedMethodListener, ISuiteListener {
+
+        <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">List</span>&lt;CompletableFuture&lt;<span class="predefined-type">InputStream</span>&gt;&gt; VIDEOS =
+                <span class="keyword">new</span> <span class="predefined-type">CopyOnWriteArrayList</span>&lt;&gt;();
+
+        <span class="annotation">@Override</span>
+        <span class="directive">public</span> <span class="type">void</span> beforeInvocation(IInvokedMethod method, ITestResult testResult) {
+        }
+
+        <span class="annotation">@Override</span>
+        <span class="directive">public</span> <span class="type">void</span> afterInvocation(IInvokedMethod method, ITestResult testResult) {
+                <span class="keyword">if</span> (method.isTestMethod()) {
+                        VIDEOS.add(addStreamAttachmentAsync(<span class="string"><span class="delimiter">&quot;</span><span class="content">Async</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">video/mp4</span><span class="delimiter">&quot;</span></span>,
+                                        () -&gt; getClass().getResourceAsStream(<span class="string"><span class="delimiter">&quot;</span><span class="content">/video.mp4</span><span class="delimiter">&quot;</span></span>)));
+                }
+        }
+
+        <span class="annotation">@Override</span>
+        <span class="directive">public</span> <span class="type">void</span> onStart(ISuite suite) {
+        }
+
+        <span class="annotation">@Override</span>
+        <span class="directive">public</span> <span class="type">void</span> onFinish(ISuite suite) {
+                CompletableFuture.allOf(VIDEOS.stream()
+                        .toArray(CompletableFuture<span class="type">[]</span>::<span class="keyword">new</span>)).join();
+        }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can call the following methods to perform async attachments: <strong>addStreamAttachmentAsync</strong> and <strong>addByteAttachmentAsync</strong>.
+Both return <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html">CompletableFuture</a>,
+which could be then easily managed on client side.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1362,7 +1453,7 @@ You will then be able to filter tests by specified features and stories in gener
 </div>
 </div>
 <div class="sect4">
-<h5 id="_flaky_tests">Flaky tests</h5>
+<h5 id="_flaky_tests_2">Flaky tests</h5>
 <div class="paragraph">
 <p>In order to attract developers' / QA&#8217;s attention to unstable tests, you can mark them with special <strong>@Flaky</strong> annotation.
 Such tests will have a <strong>bomb icon</strong> in generated html report.</p>
@@ -4110,7 +4201,7 @@ an absolute path. You can traverse up using <code>..</code> as usual. <code>outp
 <div class="sect3">
 <h4 id="_installation_7">5.1.1. Installation</h4>
 <div class="paragraph">
-<p>Allure CLI is a Java application so it&#8217;s available for all platforms. You have to manually install Java 1.7+ before using Allure CLI</p>
+<p>Allure CLI is a Java application so it&#8217;s available for all platforms. You have to manually install Java 1.8 before using Allure CLI</p>
 </div>
 <div class="sect4">
 <h5 id="_mac_os">Mac OS</h5>
@@ -4119,13 +4210,13 @@ an absolute path. You can traverse up using <code>..</code> as usual. <code>outp
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">$ brew tap qatools/formulas
-$ brew install allure-commandline</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">$ brew tap qameta/allure
+$ brew install allure</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>After installation you will have <strong>allure</strong> command available.
-Read more about <a href="https://github.com/allure-framework/homebrew-allure">Allure Homebrew Formula</a>.</p>
+Read more about <a href="https://github.com/qameta/homebrew-allure">Allure Homebrew Formula</a>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -4151,7 +4242,7 @@ Read more about <a href="https://github.com/allure-framework/allure-debian">Allu
 <div class="ulist">
 <ul>
 <li>
-<p>Download the latest version as zip archive from <a href="https://github.com/allure-framework/allure-core/releases/latest">GitHub</a>.</p>
+<p>Download the latest version as zip archive from <a href="https://bintray.com/qameta/generic/allure2">bintray</a>.</p>
 </li>
 <li>
 <p>Unpack the archive to <strong>allure-commandline</strong> directory.</p>
@@ -4161,6 +4252,9 @@ Read more about <a href="https://github.com/allure-framework/allure-debian">Allu
 </li>
 <li>
 <p>Use <strong>allure.bat</strong> for Windows and <strong>allure</strong> for other Unix platforms.</p>
+</li>
+<li>
+<p>Add <strong>allure</strong> to system PATH.</p>
 </li>
 </ul>
 </div>
@@ -4951,7 +5045,7 @@ or absolute (absolute only for report mojo). Will be ignored for bulk mojo.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-05-11 15:49:11 +00:00
+Last updated 2017-05-19 13:33:15 +03:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
