@@ -632,8 +632,39 @@ sudo apt-get install allure-commandline</code></pre>
 <div class="sect3">
 <h4 id="_windows">1.1.3. Windows</h4>
 <div class="paragraph">
-<p>Windows and other Unix distributions require manual installation:</p>
+<p>For Windows, Allure is available from the <a href="http://scoop.sh/">Scoop</a> commandline-installer.</p>
 </div>
+<div class="paragraph">
+<p>To install Allure, download and install Scoop and then execute in the Powershell:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="powershell">scoop install allure</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also Scoop is capable of updating Allure distribution installations. To do so navigate to the Scoop installation
+directory and execute</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="powershell">\bin\checkver.ps1 allure -u</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will check for newer versions of Allure, and update the manifest file. Then execute</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="powershell">scoop update allure</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to install a newer version. (<a href="https://github.com/lukesampson/scoop/wiki/App-Manifest-Autoupdate">documentation</a>)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_manual_installation">1.1.4. Manual installation</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -669,7 +700,7 @@ sudo apt-get install allure-commandline</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_check_the_installation">1.1.4. Check the installation</h4>
+<h4 id="_check_the_installation">1.1.5. Check the installation</h4>
 <div class="paragraph">
 <p>Execute <code>allure --version</code> in console to make sure that allure is now available:</p>
 </div>
@@ -5046,7 +5077,7 @@ or absolute (absolute only for report mojo). Will be ignored for bulk mojo.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-05-19 15:46:22 +00:00
+Last updated 2017-05-23 12:04:08 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
