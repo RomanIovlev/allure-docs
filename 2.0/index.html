@@ -572,6 +572,14 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_maven_4">6.6. Maven</a></li>
 </ul>
 </li>
+<li><a href="#_allure_plugins_system">7. Allure Plugins System</a>
+<ul class="sectlevel2">
+<li><a href="#_java_plugin_api_overview">7.1. Java Plugin API overview</a></li>
+<li><a href="#_js_plugin_api_overview">7.2. JS Plugin API overview</a></li>
+<li><a href="#_writing_a_skeleton_code_for_a_new_plugin">7.3. Writing a skeleton code for a new plugin.</a></li>
+<li><a href="#_existing_plugins">7.4. Existing plugins</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -5139,10 +5147,894 @@ or absolute (absolute only for report mojo). Will be ignored for bulk mojo.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_allure_plugins_system">7. Allure Plugins System</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Allure is designed to be highly customizable, because practice shows that many teams across the world
+may have different metrics, or may have developed unique approaches for testing, their products might demand
+something completely different to the initial requirements Allure was built to comply. To deal with this
+kinds of challenges Allure has a plugin system, that gives a lot of flexibility to the report representation.</p>
+</div>
+<div class="paragraph">
+<p>To be precise, all of the basic functionality is modularized into plugins, and it would be too lengthy to list
+them all here. But nearly every feature described in the features section [link to allure features section]
+ is implemented internally as a plugin.</p>
+</div>
+<div class="sect2">
+<h3 id="_java_plugin_api_overview">7.1. Java Plugin API overview</h3>
+<div class="paragraph">
+<p>Let&#8217;s take a look into the class diagram of the top classes in the Allure plugins system.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/plugins_api_uml_diagram.png" alt="Top interfaces hierarchy">
+</div>
+</div>
+<div class="paragraph">
+<p>Plugin classes can extend 3 basic interfaces that provide different aspects of functionality:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Reader</strong> allows to implement a <code>readResults</code> method, which defines the logic of reading results with <code>ResultsVisitor</code>
+instance from the directory with test results.</p>
+</li>
+<li>
+<p><strong>Aggregator</strong> allows to implement <code>aggregate</code> method, which defines the logic of aggregating processed results across
+all the results folders, and write resulting data to the report directory.</p>
+</li>
+<li>
+<p><strong>Widget</strong> this interface allows to implement <code>getData</code> method which again defines the logic of processed results aggregation
+but this time resulting data is saved into the <code>widget.json</code> file to be used by the widget named accordingly to the value
+supplied in <code>getName</code>.</p>
+</li>
+<li>
+<p><strong>Context&lt;T&gt;</strong> interface with <code>T getValue()</code> method enables to create some utility class to be used for all
+plugins via a method <code>Configuration.requireContext(Class&lt;T&gt;)</code> available from a Configuration instance, provided as
+a parameter in all of the 3 methods above.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_js_plugin_api_overview">7.2. JS Plugin API overview</h3>
+<div class="paragraph">
+<p>Front-end side of the Allure is built using <a href="http://backbonejs.org/">BackboneJS</a> framework. So some basic
+understanding of it&#8217;s internal mechanisms may sometimes be necessary.</p>
+</div>
+<div class="paragraph">
+<p>Api is accessible from the <code>allure.api</code> global object. Let&#8217;s take a look at the list of functions it provides:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>addTab(tabName, {title, icon, route, onEnter = notFound} = {})</code> - can be used to define a new tab for the report
+which will appear on the left pane menu with name <strong>tabName</strong>, it&#8217;s icon will be defined by a css styles provided
+in the <strong>icon</strong> string, <strong>route</strong> will define an address for a new tab page. <strong>onEnter</strong> should be a function, that
+instantiates a View class managing your new tab&#8217;s representation.</p>
+</li>
+<li>
+<p><code>addTranslation(lang, json)</code> - gives you an ability to support multiple languages for naming in tabs, widgets or
+test case blocks you&#8217;ve created. <strong>lang</strong> is a language key, and <strong>json</strong> is a json object that contains mappings for string
+values in the specified language.</p>
+</li>
+<li>
+<p><code>translate(name, options)</code> - is needed if you generate html code in your plugin and don&#8217;t use existing components,
+provided in <code>allure.components</code>. In the tab example above you have to wrap strings in the template in this function call
+to enable string translation to be picked up from the global registry.
+See more in the docs for <a href="https://www.npmjs.com/package/i18next-text">i18next</a>.</p>
+</li>
+<li>
+<p><code>addWidget(name, Widget)</code> - is a way to create a new widget on the Overview page of the report. <strong>name</strong> will define
+it&#8217;s displayed name, and <strong>Widget</strong> is a <code>View</code> to be added to the widgets grid.
+Api provides you with a base class for a widget at <code>allure.components.WidgetStatusView</code>, which we will examine
+later in the Behaviors plugin section. But you may design a widget for your own needs extending from
+<code>Backbone.Marionette.View</code>, just keep in mind that this widget definition is designed to pop up the data
+to fill the Model for this View from the <code>widgets.json</code> file, by the key you supplied in <strong>name</strong> parameter.</p>
+</li>
+<li>
+<p><code>addTestcaseBlock(view, {position})</code> - allows to add a View class to the Test Case page, in the one of 3 possible
+block groups, determined by a <strong>position</strong> argument. Position can be one of this values: <code>tag</code>, <code>after</code> or <code>before</code>.
+To understand what kind of information you may attach to the test case page, jump to the section with related
+features [jump to the features list]</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_a_skeleton_code_for_a_new_plugin">7.3. Writing a skeleton code for a new plugin.</h3>
+<div class="paragraph">
+<p>Here we will cover the steps that it usually takes to build a new plugin.</p>
+</div>
+<div class="sect3">
+<h4 id="_step_1_create_a_new_plugin_project">7.3.1. Step 1: Create a new plugin project</h4>
+<div class="paragraph">
+<p><strong>Plugin structure</strong></p>
+</div>
+<div class="paragraph">
+<p>Basically, any plugin will be constituted of two main parts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Java classes</strong> that process the report data and produce some results in the report folder.</p>
+</li>
+<li>
+<p><strong>JS script</strong> that takes stored results and creates a representation for them on the report&#8217;s front-end side,
+e.g. a widget or an additional tab.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Typical structure of a plugin module would look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/my-plugin
+    /src
+        /dist
+            /static
+            allure-plugin.yml
+        /main
+            /java
+                /my.company.plugin
+    build.gradle</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here in <code>src\dist\static</code> all the static <code>.js</code> and <code>.css</code> files are stored, and everything under <code>src\main\java</code>
+is a data processing Java code. <code>allure-plugin.yml</code> - is a configuration file.</p>
+</div>
+<div class="paragraph">
+<p><strong>Contents of allure-plugin.yml file</strong></p>
+</div>
+<div class="paragraph">
+<p>This file contains directives in human-readable format that plugin loader will further use to locate resources
+ and connect the plugin.</p>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">allure-plugin.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="key">id</span>: <span class="string"><span class="content">my-plugin</span></span>
+<span class="key">name</span>: <span class="string"><span class="content">Plugin name goes here</span></span>
+<span class="key">description</span>: <span class="string"><span class="content">More detailed explanation of what does this plugin do.</span></span>
+<span class="key">extensions</span>:
+- <span class="string"><span class="content">my.company.allure.CustomPlugin // - Fully qualified names of classes that implement `Extension` interface and comprise data processing functionality.</span></span>
+- <span class="string"><span class="content">my.company.allure.CustomWidget</span></span>
+<span class="key">jsFiles</span>:
+- <span class="string"><span class="content">index.js</span></span>
+<span class="key">cssFiles</span>:
+- <span class="string"><span class="content">styles.css</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Adding allure-plugin-api dependency</strong></p>
+</div>
+<div class="paragraph">
+<p>To be able to use the API you should simply download the <code>allure-plugin-api</code> dependency
+<a href="https://mvnrepository.com/artifact/io.qameta.allure/allure-plugin-api">from</a> the jcenter repository.
+To do so add to your project build script:</p>
+</div>
+<div class="paragraph">
+<p>in Gradle:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
+    compileOnly(<span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure:allure-plugin-api:${allureVersion}</span><span class="delimiter">'</span></span>)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>in Maven:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">        <span class="tag">&lt;dependency&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>allure-plugin-api<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>${allureVersion}<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;scope&gt;</span>provided<span class="tag">&lt;/scope&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_2_writing_a_java_class_that_processes_test_results">7.3.2. Step 2: Writing a Java class that processes test results</h4>
+<div class="paragraph">
+<p>Let&#8217;s consider we have some very simple set of parameterized tests, where typical result will contain captured
+arguments of test case in the <code>parameters</code> section.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">uuid</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">0edd28b1-3c7f-4593-8dda-db9aa004891f</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">fullName</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">io.qameta.allure.animals.AnimalsTest.angryCat</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">angryCat</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">status</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">passed</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">stage</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">finished</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">start</span><span class="delimiter">&quot;</span></span>:<span class="integer">1495467840415</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">stop</span><span class="delimiter">&quot;</span></span>:<span class="integer">1495467840416</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">parameters</span><span class="delimiter">&quot;</span></span>:[
+    {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">arg0</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">Hiss!</span><span class="delimiter">&quot;</span></span>
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We are preparing to write a fully-fledged new plugin that adds a new tab with
+some test results representation and creates a widget to place on Overview tab with some digested data.
+For example, let&#8217;s consider a plugin that extracts passed and failed parameters from this parameterized tests,
+creates a new tab, and a widget where only recent failures are displayed.</p>
+</div>
+<div class="paragraph">
+<p>We should start with writing a Java class that implements <code>Aggregator</code> and <code>Widget</code> interfaces.</p>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">MyPlugin.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">MyPlugin</span> <span class="directive">implements</span> Aggregator, Widget {
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> aggregate(<span class="directive">final</span> <span class="predefined-type">Configuration</span> configuration,
+                          <span class="directive">final</span> <span class="predefined-type">List</span>&lt;LaunchResults&gt; launches,
+                          <span class="directive">final</span> Path outputDirectory) <span class="directive">throws</span> <span class="exception">IOException</span> {
+    <span class="directive">final</span> JacksonContext jacksonContext = configuration
+        .requireContext(JacksonContext.class);
+    <span class="directive">final</span> Path dataFolder = Files.createDirectories(outputDirectory.resolve(<span class="string"><span class="delimiter">&quot;</span><span class="content">data</span><span class="delimiter">&quot;</span></span>));
+    <span class="directive">final</span> Path dataFile = dataFolder.resolve(<span class="string"><span class="delimiter">&quot;</span><span class="content">myplugindata.json</span><span class="delimiter">&quot;</span></span>);
+    <span class="directive">final</span> Stream&lt;TestResult&gt; resultsStream = launches.stream()
+        .flatMap(launch -&gt; launch.getAllResults().stream());
+    <span class="keyword">try</span> (<span class="predefined-type">OutputStream</span> os = Files.newOutputStream(dataFile)) {
+        jacksonContext.getValue().writeValue(os, extractData(resultsStream));
+    }
+    }
+
+    <span class="directive">private</span> <span class="predefined-type">Collection</span>&lt;<span class="predefined-type">Map</span>&gt; extractData(<span class="directive">final</span> Stream&lt;TestResult&gt; testResults) {
+        <span class="comment">//extraction logic</span>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">Object</span> getData(<span class="predefined-type">Configuration</span> configuration, <span class="predefined-type">List</span>&lt;LaunchResults&gt; launches) {
+        Stream&lt;TestResult&gt; filteredResults = launches.stream().flatMap(launch -&gt; launch.getAllResults().stream())
+                .filter(result -&gt; result.getStatus().equals(Status.FAILED));
+        <span class="keyword">return</span> extractData(filteredResults);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> getName() {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">mywidget</span><span class="delimiter">&quot;</span></span>;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What is happening in the code above?</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In <code>aggregate</code> method, data that is extracted from test results in the <code>extractData</code> method is written to the
+<code>myplugindata.json</code> file that is stored in the report&#8217;s <code>data</code> folder. To create a proper .json file a
+<code>JacksonContext</code> is used to obtain a mapper instance. This data will be displayed on the new tab.</p>
+</li>
+<li>
+<p><code>getData</code> method implementation creates data to be used in the new widget, and <code>getName</code> method defines
+name of the entry for the <code>widgets.json</code> file where this data will be stored.</p>
+</li>
+</ol>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">myplugindata.json</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">[ {
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">sounds</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">Growl!</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Hiss!</span><span class="delimiter">&quot;</span></span> ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">angryCat</span><span class="delimiter">&quot;</span></span>
+}, {
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">sounds</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">Oink!</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Meow!</span><span class="delimiter">&quot;</span></span> ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">hungryCat</span><span class="delimiter">&quot;</span></span>
+}, {
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">sounds</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">Bark!</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Woof!</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Moo!</span><span class="delimiter">&quot;</span></span> ],
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">bigDog</span><span class="delimiter">&quot;</span></span>
+} ]</code></pre>
+</div>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">widgets.json</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json"><span class="error">.</span><span class="error">.</span><span class="error">.</span>
+<span class="key"><span class="delimiter">&quot;</span><span class="content">mywidget</span><span class="delimiter">&quot;</span></span> : [ {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">sounds</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">Oink!</span><span class="delimiter">&quot;</span></span> ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">hungryCat</span><span class="delimiter">&quot;</span></span>
+  }, {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">sounds</span><span class="delimiter">&quot;</span></span> : [ <span class="string"><span class="delimiter">&quot;</span><span class="content">Moo!</span><span class="delimiter">&quot;</span></span> ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">bigDog</span><span class="delimiter">&quot;</span></span>
+  } ],
+<span class="error">.</span><span class="error">.</span><span class="error">.</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adding_an_utility_context_class">7.3.3. Adding an utility Context class</h4>
+<div class="paragraph">
+<p>Your plugins may require to share some common utilities that would be wise to make available in on-demand manner.
+A quick example of such an utility class would be <code>JacksonContext</code>, which can be used to obtain a mapper
+ to serialize Java objects with data into the report JSON files.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">JacksonContext</span> <span class="directive">implements</span> <span class="predefined-type">Context</span>&lt;ObjectMapper&gt; {
+
+    <span class="directive">private</span> <span class="directive">final</span> ObjectMapper mapper;
+
+    <span class="directive">public</span> JacksonContext() {
+        <span class="local-variable">this</span>.mapper = <span class="keyword">new</span> ObjectMapper()
+                .configure(MapperFeature.USE_WRAPPER_NAME_AS_PROPERTY_NAME, <span class="predefined-constant">true</span>)
+                .setAnnotationIntrospector(<span class="keyword">new</span> JaxbAnnotationIntrospector(TypeFactory.defaultInstance()))
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> ObjectMapper getValue() {
+        <span class="keyword">return</span> mapper;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, from a plugin class it can be accessed from <code>Configuration</code> instance as in the Step 2.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_3_adding_a_new_tab_for_the_report">7.3.4. Step 3: Adding a new tab for the report</h4>
+<div class="paragraph">
+<p>Here we switch to the front-end side of the Allure report and start with adding some JavaScript code to the <code>index.js</code>
+file.</p>
+</div>
+<div class="paragraph">
+<p>Backbone manages data with <a href="http://backbonejs.org/#Model">Models</a> or
+ <a href="http://backbonejs.org/#Collection">Collections</a>, on the previous step we saved the data for our page as
+ a Collection&lt;Map&gt;, so the model for the tab should extend <code>Backbone.Collection</code>. This object will contain the data from
+ the file, specified in the <code>url</code>. Then, for your new tab you need to extend a <a href="http://backbonejs.org/#View">View</a>
+ class from the base <code>AppLayout</code> class that already contains report&#8217;s left navigational menu.
+  It is provided in the global <code>allure</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">var</span> MyTabModel = Backbone.Collection.extend({
+    <span class="key">url</span>: <span class="string"><span class="delimiter">'</span><span class="content">data/myplugindata.json</span><span class="delimiter">'</span></span>
+})
+
+<span class="reserved">class</span> MyLayout <span class="reserved">extends</span> allure.components.AppLayout {
+
+    initialize() {
+        <span class="local-variable">this</span>.model = <span class="keyword">new</span> MyTabModel();
+    }
+
+    loadData() {
+        <span class="keyword">return</span> <span class="local-variable">this</span>.model.fetch();
+    }
+
+    getContentView() {
+        <span class="keyword">return</span> <span class="keyword">new</span> MyView({<span class="key">items</span>: <span class="local-variable">this</span>.model.models});
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>MyLayout</code> class you can override a <code>getContentView</code> method to define some other View class that will manage the
+contents of your tab. Below is some simplistic implementation of the View class, <code>template</code> is some template
+function that returns html template with added data.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">const <span class="function">template</span> = <span class="keyword">function</span> (data) {
+    html = <span class="string"><span class="delimiter">'</span><span class="content">&lt;h3 class=&quot;pane__title&quot;&gt;My Tab&lt;/h3&gt;</span><span class="delimiter">'</span></span>;
+    <span class="keyword">for</span> (<span class="keyword">var</span> item of data.items) {
+        html += <span class="string"><span class="delimiter">'</span><span class="content">&lt;p&gt;</span><span class="delimiter">'</span></span> + item.attributes.name + <span class="string"><span class="delimiter">'</span><span class="content"> says: </span><span class="delimiter">'</span></span> + item.attributes.sounds + <span class="string"><span class="delimiter">'</span><span class="content">&lt;/p&gt;</span><span class="delimiter">'</span></span>;
+    }
+    <span class="keyword">return</span> html;
+}
+
+<span class="keyword">var</span> MyView = Backbone.Marionette.View.extend({
+    <span class="key">template</span>: template,
+
+    <span class="function">render</span>: <span class="keyword">function</span> () {
+        <span class="local-variable">this</span>.<span class="predefined">$el</span>.html(<span class="local-variable">this</span>.template(<span class="local-variable">this</span>.options));
+        <span class="keyword">return</span> <span class="local-variable">this</span>;
+    }
+})</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After all that add <code>addTab</code> function call would look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">allure.api.addTab(<span class="string"><span class="delimiter">'</span><span class="content">mytab</span><span class="delimiter">'</span></span>, {
+    <span class="key">title</span>: <span class="string"><span class="delimiter">'</span><span class="content">My Tab</span><span class="delimiter">'</span></span>, <span class="key">icon</span>: <span class="string"><span class="delimiter">'</span><span class="content">fa fa-trophy</span><span class="delimiter">'</span></span>,
+    <span class="key">route</span>: <span class="string"><span class="delimiter">'</span><span class="content">mytab</span><span class="delimiter">'</span></span>,
+    <span class="key">onEnter</span>: (<span class="keyword">function</span> () {
+        <span class="keyword">return</span> <span class="keyword">new</span> MyLayout()
+    })
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which will finally give you a new tab:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/plugins_add_tab_example.png" alt="Hello world tab example">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_4_adding_a_new_widget_on_the_overview_page">7.3.5. Step 4: Adding a new widget on the Overview page</h4>
+<div class="paragraph">
+<p>To create a new widget you need to implement a small View class that manages data that you put into <code>widgets.json</code> on
+the step 2. Note, that if you return the data from <code>getData</code> as a collection, it will subsequently be provided to
+ the widget as an array, that can be obtained as <code>this.model.get('items')</code>. In the code below <code>template</code> function
+ defines the actual html to be displayed in the widget.</p>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">index.js</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="reserved">class</span> MyWidget <span class="reserved">extends</span> Backbone.Marionette.View {
+
+    template(data) {
+            <span class="keyword">return</span> widgetTemplate(data)
+    }
+
+    serializeData() {
+        <span class="keyword">return</span> {
+            <span class="key">items</span>: <span class="local-variable">this</span>.model.get(<span class="string"><span class="delimiter">'</span><span class="content">items</span><span class="delimiter">'</span></span>),
+        }
+    }
+}
+
+allure.api.addWidget(<span class="string"><span class="delimiter">'</span><span class="content">mywidget</span><span class="delimiter">'</span></span>, MyWidget);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This finally gives us a new widget on the Overview dashboard.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/plugins_add_widget_example.png" alt="A new widget on the Overview">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_5_adding_translation_for_strings">7.3.6. Step 5: Adding translation for strings</h4>
+<div class="paragraph">
+<p>Returning to the tab example, it&#8217;s very easy to enable translated strings in it. In templates you need
+to substitute plain text strings for placeholders and use <code>translate</code> function, and also you need to register
+translations via <code>addTranslation</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">const <span class="function">template</span> = <span class="keyword">function</span> (data) {
+    html = <span class="string"><span class="delimiter">'</span><span class="content">&lt;h3 class=&quot;pane__title&quot;&gt;</span><span class="delimiter">'</span></span> + allure.api.translate(mytab.name) + <span class="string"><span class="delimiter">'</span><span class="content">&lt;/h3&gt;</span><span class="delimiter">'</span></span>;
+    <span class="keyword">for</span> (<span class="keyword">var</span> item of data.items) {
+        html += <span class="string"><span class="delimiter">'</span><span class="content">&lt;p&gt;</span><span class="delimiter">'</span></span> + item.attributes.name + <span class="string"><span class="delimiter">'</span><span class="content"> says: </span><span class="delimiter">'</span></span> + item.attributes.sounds + <span class="string"><span class="delimiter">'</span><span class="content">&lt;/p&gt;</span><span class="delimiter">'</span></span>;
+    }
+    <span class="keyword">return</span> html;
+}
+
+allure.api.addTranslation(<span class="string"><span class="delimiter">'</span><span class="content">en</span><span class="delimiter">'</span></span>, {
+    <span class="key">mytab</span>: {
+        <span class="key">name</span>: <span class="string"><span class="delimiter">'</span><span class="content">My Tab</span><span class="delimiter">'</span></span>,
+    }
+},
+});
+
+allure.api.addTranslation(<span class="string"><span class="delimiter">'</span><span class="content">ru</span><span class="delimiter">'</span></span>, {
+    <span class="key">mytab</span>: {
+        <span class="key">name</span>: <span class="string"><span class="delimiter">'</span><span class="content">Моя Вкладка</span><span class="delimiter">'</span></span>,
+    }
+},
+});</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_6_adding_new_sections_for_test_case_page">7.3.7. Step 6: Adding new sections for test case page</h4>
+<div class="paragraph">
+<p>Internally, many Allure features are implemented using plugin api, let&#8217;s see how for example links are added to the
+test case page.</p>
+</div>
+<div class="paragraph">
+<p>With <code>addTestcaseBlock</code> method you can define a View that you can assume will have a test case object as a Model
+available at <code>this.model</code>.</p>
+</div>
+<div class="paragraph">
+<p>A View class:</p>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">LinksView.js</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="reserved">import</span> <span class="string"><span class="delimiter">'</span><span class="content">./styles.css</span><span class="delimiter">'</span></span>;
+<span class="reserved">import</span> {View} from <span class="string"><span class="delimiter">'</span><span class="content">backbone.marionette</span><span class="delimiter">'</span></span>;
+<span class="reserved">import</span> {className} from <span class="string"><span class="delimiter">'</span><span class="content">../../decorators</span><span class="delimiter">'</span></span>;
+<span class="reserved">import</span> template from <span class="string"><span class="delimiter">'</span><span class="content">./LinksView.hbs</span><span class="delimiter">'</span></span>;
+
+<span class="error">@</span>className(<span class="string"><span class="delimiter">'</span><span class="content">pane__section</span><span class="delimiter">'</span></span>)
+<span class="reserved">class</span> LinksView <span class="reserved">extends</span> View {
+    template = template;
+
+    serializeData() {
+        <span class="keyword">return</span> {
+            <span class="key">links</span>: <span class="local-variable">this</span>.model.get(<span class="string"><span class="delimiter">'</span><span class="content">links</span><span class="delimiter">'</span></span>)
+        };
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Handlebars is used as a template engine:</p>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">LinksView.hbs</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">{{#if links}}
+    <span class="tag">&lt;h3</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">pane__section-title</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{t 'testCase.links.name'}}<span class="tag">&lt;/h3&gt;</span>
+    {{#each links}}
+        <span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">testcase-link</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        {{#if (eq type &quot;issue&quot;)}}
+            <span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">fa fa-bug</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/span&gt;</span>
+        {{/if}}
+        {{#if (eq type &quot;tms&quot;)}}
+            <span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">fa fa-database</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/span&gt;</span>
+        {{/if}}
+        <span class="tag">&lt;a</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">link</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">{{this.url}}</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">target</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">_blank</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>{{name}}<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;/span&gt;</span>
+    {{/each}}
+{{/if}}</code></pre>
+</div>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">index.js</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="reserved">import</span> LinksView from <span class="string"><span class="delimiter">'</span><span class="content">./LinksView</span><span class="delimiter">'</span></span>;
+
+allure.api.addTestcaseBlock(LinksView, {<span class="key">position</span>: <span class="string"><span class="delimiter">'</span><span class="content">before</span><span class="delimiter">'</span></span>});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which adds a links section to the test case:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/plugins_add_testcase_block_example.png" alt="New test case block">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_7_plugin_distribution">7.3.8. Step 7: Plugin distribution</h4>
+<div class="paragraph">
+<p>When you build a plugin, you should come up with the following structure, which then can be copied into <code>plugins</code> folder
+of the commandline distribution.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>\my-plugin
+    allure-plugin.yml
+    plugin.jar
+    \lib
+        dependency.jar
+    \static
+        styles.css
+        index.js</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>plugin.jar</strong> - is a jar with your compiled plugin classes</p>
+</li>
+<li>
+<p><strong>\lib</strong> - all of your pugin&#8217;s dependencies should be placed in here</p>
+</li>
+<li>
+<p><strong>\static</strong> - a folder containing all static <code>.js</code> and <code>.css</code> files.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is a template of gradle build script for a plugin project that uses
+<a href="https://docs.gradle.org/current/userguide/javaLibraryDistribution_plugin.html">Java Library Distribution Plugin</a>
+to package plugin classes and copy files and dependencies into one .zip archive.</p>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">repositories {
+    jcenter()
+}
+
+apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">java-library-distribution</span><span class="delimiter">'</span></span>
+
+jar {
+    archiveName = <span class="string"><span class="delimiter">'</span><span class="content">plugin.jar</span><span class="delimiter">'</span></span>
+}
+
+dependencies {
+    compileOnly(<span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure:allure-plugin-api:2.0-BETA8</span><span class="delimiter">'</span></span>)
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_8_enabling_a_plugin">7.3.9. Step 8: Enabling a plugin</h4>
+<div class="paragraph">
+<p>Allure commandline distribution has a following folder structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/allure-commandline
+    /bin
+    /config
+        allure.yml
+    /lib
+    /plugins
+        /behaviors-plugin
+        /junit-plugin
+        /screen-diff-plugin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here in <code>plugins</code> folder plugins distributions to use at the report generation reside. By default several plugins
+are already added to the Allure. Their usage is managed by default build profile configuration file`/config/allure.yml`.
+In this file, under the section <code>plugins</code> plugin folders to use are listed, so it&#8217;s contents should look like this:</p>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">allure.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="key">plugins</span>:
+  - <span class="string"><span class="content">behaviors-plugin</span></span>
+  - <span class="string"><span class="content">junit-plugin</span></span>
+  - <span class="string"><span class="content">screen-diff-plugin</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To enable your own plugin, copy folder with distribution to the <code>plugins</code> folder
+and then add the folder&#8217;s name to the corresponding build profile configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/allure-commandline
+    /bin
+    /config
+        allure.yml
+    /lib
+    /plugins
+        /behaviors-plugin
+        /junit-plugin
+        /screen-diff-plugin
+        /my-plugin</code></pre>
+</div>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">allure.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="key">plugins</span>:
+  - <span class="string"><span class="content">behaviors-plugin</span></span>
+  - <span class="string"><span class="content">junit-plugin</span></span>
+  - <span class="string"><span class="content">screen-diff-plugin</span></span>
+  - <span class="string"><span class="content">my-plugin</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_existing_plugins">7.4. Existing plugins</h3>
+<div class="paragraph">
+<p>Several important Allure features are implemented as decoupled plugins that are stored independently under
+the <code>plugins</code> folder of Allure Commandline distribution. Their usage can be managed by build profiles functionality
+(jump to the (link to the section)[Commandline configuration]).</p>
+</div>
+<div class="sect3">
+<h4 id="_custom_logo">7.4.1. Custom Logo</h4>
+<div class="paragraph">
+<p>Let&#8217;s start with studuying how one of the simplest plugins works. In this section we will quickly
+examine a plugin available in the Allure distribution which allows you to change a logo picture shown in
+the upper-left corner of the report.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/plugins_custom_logo.png" alt="Custom logo in the report">
+</div>
+</div>
+<div class="paragraph">
+<p>plugin sources directory structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/src
+    /dist
+        allure-plugin.yml
+        /static
+            custom-logo.svg
+            styles.css
+    build.gradle</code></pre>
+</div>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">allure-plugin.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="key">id</span>: <span class="string"><span class="content">custom-logo</span></span>
+<span class="key">name</span>: <span class="string"><span class="content">Custom logo aggregator</span></span>
+<span class="key">description</span>: <span class="string"><span class="content">The aggregator replaces default Allure logo with a custom one</span></span>
+<span class="key">cssFiles</span>:
+  - <span class="string"><span class="content">styles.css</span></span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>custom-logo.svg</strong> - is a vector graphics file with a logo to use</p>
+</li>
+<li>
+<p><strong>styles.css</strong> - a css file that adds the style, that will override default logotype.</p>
+</li>
+</ul>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">styles.css</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="css"><span class="class">.side-nav__brand</span> {
+  <span class="key">background</span>: <span class="function"><span class="delimiter">url(</span><span class="content">'custom-logo.svg'</span><span class="delimiter">)</span></span> <span class="value">no-repeat</span> <span class="value">left</span> <span class="value">center</span>;
+  <span class="key">margin-left</span>: <span class="float">10px</span>;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_behaviors_2">7.4.2. Behaviors</h4>
+<div class="paragraph">
+<p>Behaviors plugin is created to support behavior-driven approach in testing with Allure report.
+Test cases should have Feature and Story labels, that plugin will aggregate and create a widget
+showing statistics of stories results per every feature, and a new tab, where all test results are
+grouped by their features and stories.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In Java-based adaptors you can mark your tests with <code>@Feature</code> and <code>@Story</code> annotations.</p>
+</li>
+<li>
+<p>In JS-based adaptors you can use <code>allure.feature(featureName)</code> and <code>allure.story(storyName)</code> methods</p>
+</li>
+<li>
+<p>In CucumberJVM Features and Stories are extracted exactly as the tests are organized in Features and Scenarios.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Once your tests are properly labeled, you can start using Behaviors plugin right away since it is included in
+Allure distribution by default. You can find plugin sources in the
+<a href="https://github.com/allure-framework/allure2/tree/master/plugins">plugins folder of the Allure 2 project</a></p>
+</div>
+<div class="paragraph">
+<p>Behaviors plugin structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/src
+    /dist
+        allure-plugin.yml
+        /static
+            index.js
+    /main
+        /java
+            /io.qameta.allure.behaviors
+                BehaviorsPlugin.java
+    build.gradle</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>BehavioursPlugin.java</strong></p>
+</div>
+<div class="paragraph">
+<p>This plugin creates a different representation for the test results tree, that is why it&#8217;s <code>BehaviorsPlugin</code> class
+ inherits from a base class providing tree aggregation - <code>AbstractTreeAggregator</code> and implements a <code>Widget</code>
+ interface to prepare the data for a widget on the Overview report dashboard.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To provide aggregation classifier, plugin should implement a method
+<code>List&lt;TreeGroup&gt; getGroups(final TestResult result)</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="predefined-type">List</span>&lt;TreeGroup&gt; getGroups(<span class="directive">final</span> TestResult result) {
+        <span class="keyword">return</span> <span class="predefined-type">Arrays</span>.asList(
+                TreeGroup.allByLabel(result, LabelName.FEATURE, DEFAULT_FEATURE),
+                TreeGroup.allByLabel(result, LabelName.STORY, DEFAULT_STORY)
+        );
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This groups will determine a placement for every <code>TestResult</code> when building a tree of regrouped results to store in the
+ <code>behaviors.json</code> file.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Another part of <code>BehaviorsPlugin</code> class is a <code>getData</code> method that comprises implementation of <code>Widget</code> interface.
+This method prepares aggregated information on amount of passed stories per every feature,
+that will be put into the <code>widget.json</code> file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>index.js</strong></p>
+</div>
+<div class="paragraph">
+<p>After that, in the <code>index.js</code> api calls for creation of a new tab and creation of a new widget are as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">allure.api.addTab(<span class="string"><span class="delimiter">'</span><span class="content">behaviors</span><span class="delimiter">'</span></span>, {
+    <span class="key">title</span>: <span class="string"><span class="delimiter">'</span><span class="content">tab.behaviors.name</span><span class="delimiter">'</span></span>, <span class="key">icon</span>: <span class="string"><span class="delimiter">'</span><span class="content">fa fa-list</span><span class="delimiter">'</span></span>,
+    <span class="key">route</span>: <span class="string"><span class="delimiter">'</span><span class="content">behaviors(/:testcaseId)</span><span class="delimiter">'</span></span>,
+    <span class="key">onEnter</span>: (<span class="keyword">function</span> () {
+        <span class="keyword">var</span> routeParams = Array.prototype.slice.call(<span class="local-variable">arguments</span>);
+        <span class="keyword">return</span> <span class="keyword">new</span> allure.components.TreeLayout({
+            <span class="key">routeParams</span>: routeParams,
+            <span class="key">tabName</span>: <span class="string"><span class="delimiter">'</span><span class="content">tab.behaviors.name</span><span class="delimiter">'</span></span>,
+            <span class="key">baseUrl</span>: <span class="string"><span class="delimiter">'</span><span class="content">behaviors</span><span class="delimiter">'</span></span>,
+            <span class="key">url</span>: <span class="string"><span class="delimiter">'</span><span class="content">data/behaviors.json</span><span class="delimiter">'</span></span>
+        });
+    })
+});
+
+allure.api.addWidget(<span class="string"><span class="delimiter">'</span><span class="content">behaviors</span><span class="delimiter">'</span></span>, allure.components.WidgetStatusView.extend({
+    <span class="key">title</span>: <span class="string"><span class="delimiter">'</span><span class="content">widget.behaviors.name</span><span class="delimiter">'</span></span>,
+    <span class="key">baseUrl</span>: <span class="string"><span class="delimiter">'</span><span class="content">behaviors</span><span class="delimiter">'</span></span>,
+    <span class="key">showLinks</span>: <span class="predefined-constant">false</span>,
+    <span class="key">showAllText</span>: <span class="string"><span class="delimiter">'</span><span class="content">widget.behaviors.showAll</span><span class="delimiter">'</span></span>
+}));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note a special <code>TreeLayout</code> component that can be used for displaying all types of data, produced by
+implementations of <code>AbstractTreeAggregator</code>. Also, a <code>route</code> attribute defines a pattern for links to the test case
+ pages.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/plugins_behaviors.png" alt="Behaviors tab">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_junit">7.4.3. Junit</h4>
+<div class="paragraph">
+<p>Junit plugin works without a front-end part, it is created to enable Allure generator to process junit report xml format
+into the Allure test results, this plugin is enabled by default, so when you use <code>allure generate</code> command for a folder
+with junit test results, a report will be generated.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-05-28 16:09:39 +00:00
+Last updated 2017-05-28 16:13:01 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
