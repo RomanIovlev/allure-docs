@@ -596,7 +596,7 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_scala">12. Scala</a>
 <ul class="sectlevel2">
-<li><a href="#_scaltest">12.1. Scaltest</a></li>
+<li><a href="#_scalatest">12.1. ScalaTest</a></li>
 <li><a href="#_specs">12.2. Specs</a></li>
 </ul>
 </li>
@@ -689,14 +689,8 @@ what the report looks like</p>
 </li>
 <li>
 <p>Choose your favorite testing framework and integrate it with Allure.
-Supported frameworks are divided into language-based sections: <a href="https://docs.qameta.io/allure/latest/#_java">Java</a>,
- <a href="https://docs.qameta.io/allure/latest/#_python">Python</a>,
- <a href="https://docs.qameta.io/allure/latest/#_javascript">JavaScript</a>,
- <a href="https://docs.qameta.io/allure/latest/#_ruby">Ruby</a>,
- <a href="https://docs.qameta.io/allure/latest/#_groovy">Groovy</a>,
- <a href="https://docs.qameta.io/allure/latest/#_php">PHP</a>,
- <a href="https://docs.qameta.io/allure/latest/#__net">.Net</a>,
- <a href="https://docs.qameta.io/allure/latest/#_scala">Scala</a>.</p>
+Supported frameworks are divided into language-based sections: <a href="#_java">Java</a>, <a href="#_python">Python</a>,
+<a href="#_javascript">JavaScript</a>, <a href="#_ruby">Ruby</a>, <a href="#_groovy">Groovy</a>, <a href="#_php">PHP</a>, <a href="#__net">.Net</a>, <a href="#_scala">Scala</a>.</p>
 </li>
 </ul>
 </div>
@@ -857,7 +851,7 @@ stored in the <code>target/surefire-reports</code>:</p>
 <p>Which generates a report in temporary folder from the data found in the provided path
 and then creates a local Jetty server instance, serves generated report and opens it in the default browser.
 It is possible to use a <strong>--profile</strong> option to enable some pre-configured allure setting. <strong>junit</strong> profile is enabled
-by default, you will learn more about profiles in the following sections.</p>
+by default, you will learn more about profiles in the following <a href="#_commandline">section</a>.</p>
 </div>
 <div class="paragraph">
 <p>This would produce a report with a minimum of information extracted from the xml data that will lack nearly all
@@ -4157,10 +4151,10 @@ corresponding version (version specified in parentheses);</p>
 <h2 id="_scala">12. Scala</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_scaltest">12.1. Scaltest</h3>
+<h3 id="_scalatest">12.1. ScalaTest</h3>
 <div class="paragraph">
-<p>This adapter allows to retrieve test execution data from [ScalaTest]() framework and convert it to the form suitable for
-[Allure report generation](<a href="https://github.com/allure-framework/allure-core/wiki#generating-report" class="bare">https://github.com/allure-framework/allure-core/wiki#generating-report</a>).</p>
+<p>This adapter allows to retrieve test execution data from <a href="http://www.scalatest.org">ScalaTest</a> framework and convert it
+to the form suitable for <a href="https://github.com/allure-framework/allure-core/wiki#generating-report">Allure report generation</a>.</p>
 </div>
 <div class="sect3">
 <h4 id="_example_project_3">12.1.1. Example project</h4>
@@ -4359,6 +4353,8 @@ Read more about <a href="https://github.com/allure-framework/allure-debian">Allu
 </div>
 <div class="sect3">
 <h4 id="_configuration_3">13.1.2. Configuration</h4>
+<div class="sect4">
+<h5 id="_properties_file">Properties file</h5>
 <div class="paragraph">
 <p>To configure the Allure report you should create <strong>allure.properties</strong> file</p>
 </div>
@@ -4372,6 +4368,18 @@ allure.tests.management.pattern=https://bugtracker/issue-%s</code></pre>
 <div class="paragraph">
 <p>and simply generate the report. By default command line tool looking for config in directory you run the command.
 <strong>You can use ALLURE_CONFIG</strong> environment variable to specify the path to configuration.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_command_line_arguments">Command line arguments</h5>
+<div class="paragraph">
+<p>There are an options you can use directly from command line. To show them, execute the command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">$ allure help</code></pre>
+</div>
+</div>
 </div>
 <div class="sect4">
 <h5 id="_usage_6">Usage</h5>
@@ -6026,7 +6034,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-06-06 18:35:16 +00:00
+Last updated 2017-06-06 18:35:48 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
