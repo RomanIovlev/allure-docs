@@ -4893,174 +4893,284 @@ image::teamcity_plugin_usage.png[jenkins plugin install]</p>
 <div class="sect2">
 <h3 id="_gradle_2">13.5. Gradle</h3>
 <div class="paragraph">
-<p>Gradle Allure Plugin allows you to integrate <a href="http://allure.qatools.ru/">Allure</a> into spock, testng and junit tests.</p>
-</div>
-<div class="paragraph">
-<p><a href="https://github.com/d10xa/gradle-allure-plugin-examples">Examples</a></p>
+<p>Allure plugin for Gradle allows integration of Allure listeners into TestNG,
+ Junit4, Cucumber JVM and Spock frameworks in your Gradle-based projects, and also
+provides several tasks for building a single-project or multi-project report.</p>
 </div>
 <div class="sect3">
-<h4 id="_basic_usage">13.5.1. Basic usage</h4>
+<h4 id="_autoconfiguration_for_junit4_and_testng">13.5.1. Autoconfiguration for Junit4 and TestNG</h4>
+<div class="paragraph">
+<p>Plugin is able to use Gradle integration for Junit4 and TestNG, so in case you
+are using one of this frameworks, configuration will look very simple:</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">buildscript {
+
     repositories {
         jcenter()
     }
+
     dependencies {
-        classpath <span class="string"><span class="delimiter">&quot;</span><span class="content">ru.d10xa:gradle-allure-plugin:0.5.5</span><span class="delimiter">&quot;</span></span>
+        classpath <span class="string"><span class="delimiter">&quot;</span><span class="content">io.qameta.allure:allure-gradle:2.3</span><span class="delimiter">&quot;</span></span>
     }
 }
 
-apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">ru.d10xa.allure</span><span class="delimiter">'</span></span>
+    plugins {
+        id <span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure</span><span class="delimiter">'</span></span>
+    }
 
-allure {
-    aspectjweaver = <span class="predefined-constant">true</span>
-
-    <span class="comment">// Choose your test framework.</span>
-    junit = <span class="predefined-constant">true</span>
-    testNG = <span class="predefined-constant">false</span>
-    spock = <span class="predefined-constant">false</span>
-
-    <span class="comment">// Choose if you're using Geb for web tests</span>
-    geb = <span class="predefined-constant">true</span>
-}</code></pre>
+    allure {
+        version = <span class="string"><span class="delimiter">'</span><span class="content">2.2.1</span><span class="delimiter">'</span></span>
+        autoconfigure = <span class="predefined-constant">true</span>
+     }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Here you will need only two parameters: <code>autoconfigure</code> - it is a flag that enables framework detection.
+If you enable it, plugin will automatically add the right listener and a dependency for aspectjweaver
+runtime agent and <code>version</code> - parameter that specifies the Allure Commandline to download and build a report with.</p>
+</div>
+<div class="paragraph">
+<p>After you apply automatic configuration, Allure results obtained after the <code>test</code> task execution will
+be stored in <code>build/allure-results</code>.</p>
+</div>
+<div class="paragraph">
+<p>To build a report execute the <code>allure</code> Gradle task:</p>
+</div>
+<div class="paragraph">
+<p><code>./gradlew clean build allure</code></p>
+</div>
+<div class="paragraph">
+<p>Note, that if you don&#8217;t specify the version, plugin will not create any Allure-related tasks.
+So if you only want to create results for further processing, omit the <code>version</code> parameter.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_full_configuration">13.5.2. Full configuration</h4>
+<h4 id="_configuration_for_a_specific_testing_framework">13.5.2. Configuration for a specific testing framework</h4>
+<div class="paragraph">
+<p>Plugin provides a configuration closure parameter for 4 different frameworks: Junit4, TestNG,
+Cucumber JVM and Spock.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s see how the Spock-based build script will look:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">buildscript {
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath <span class="string"><span class="delimiter">&quot;</span><span class="content">io.qameta.allure:allure-gradle:2.3</span><span class="delimiter">&quot;</span></span>
+    }
+}
+
+plugins {
+        id <span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure</span><span class="delimiter">'</span></span>
+}
+
+allure {
+    version = <span class="string"><span class="delimiter">'</span><span class="content">2.2.1</span><span class="delimiter">'</span></span>
+    aspectjweaver = <span class="predefined-constant">true</span>
+
+    useSpock {
+        version = <span class="string"><span class="delimiter">'</span><span class="content">2.0-BETA12</span><span class="delimiter">'</span></span>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here <code>aspectjweaver</code> flag is used to add a corresponding dependency for runtime agent to your project, and <code>useSpock</code>
+configures a version for Allure Spock adaptor dependency.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_full_configuration">13.5.3. Full configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">allure {
+    version = <span class="string"><span class="delimiter">'</span><span class="content">2.2.1</span><span class="delimiter">'</span></span>
+
+    autoconfigure = <span class="predefined-constant">false</span>
+
+    <span class="predefined-type">String</span> allureJavaVersion = <span class="string"><span class="delimiter">'</span><span class="content">2.0-BETA9</span><span class="delimiter">'</span></span>
+
     aspectjweaver = <span class="predefined-constant">true</span>
 
-    junit = <span class="predefined-constant">true</span>
-    testNG = <span class="predefined-constant">false</span>
-    spock = <span class="predefined-constant">false</span>
+    <span class="type">boolean</span> clean = <span class="predefined-constant">true</span>
 
-    geb = <span class="predefined-constant">false</span>
+    resultsDir = file(<span class="string"><span class="delimiter">'</span><span class="content">/path/to/project/module/build/allure-results</span><span class="delimiter">'</span></span>)
 
-    allureResultsDir = <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">$</span>buildDir</span><span class="content">/allure-results</span><span class="delimiter">&quot;</span></span>
-    allureReportDir = <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">$</span>buildDir</span><span class="content">/allure-report</span><span class="delimiter">&quot;</span></span>
+    reportDir = file(<span class="string"><span class="delimiter">'</span><span class="content">build/reports/allure-report</span><span class="delimiter">'</span></span>)
 
-    allureVersion = <span class="string"><span class="delimiter">&quot;</span><span class="content">1.4.24.RC3</span><span class="delimiter">&quot;</span></span>
-    aspectjVersion = <span class="string"><span class="delimiter">&quot;</span><span class="content">1.8.9</span><span class="delimiter">&quot;</span></span>
-    allureSpockGebExtensionVersion = <span class="string"><span class="delimiter">&quot;</span><span class="content">0.2.1</span><span class="delimiter">&quot;</span></span>
-    allureJunitAspectjAdaptorVersion = <span class="string"><span class="delimiter">&quot;</span><span class="content">0.1.1</span><span class="delimiter">&quot;</span></span>
+    <span class="predefined-type">String</span> configuration = <span class="string"><span class="delimiter">'</span><span class="content">testCompile</span><span class="delimiter">'</span></span>
 
-    clean = <span class="predefined-constant">true</span>
+    useJunit4 {
+       version = <span class="string"><span class="delimiter">'</span><span class="content">2.0-BETA12</span><span class="delimiter">'</span></span>
+    }
+
+    useTestNG {
+       version = <span class="string"><span class="delimiter">'</span><span class="content">2.0-BETA12</span><span class="delimiter">'</span></span>
+       spi-off = <span class="predefined-constant">false</span>
+    }
+
+    useCucumberJVM {
+       version = <span class="string"><span class="delimiter">'</span><span class="content">2.0-BETA12</span><span class="delimiter">'</span></span>
+    }
+
+    useSpock {
+       version = <span class="string"><span class="delimiter">'</span><span class="content">2.0-BETA12</span><span class="delimiter">'</span></span>
+    }
+
+    downloadLink = <span class="string"><span class="delimiter">'</span><span class="content">https://dl.bintray.com/qameta/generic/io/qameta/allure/allure/2.2.1/allure-2.2.1.zip</span><span class="delimiter">'</span></span>
 }</code></pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_configuration_7">13.5.3. Configuration</h4>
 <div class="ulist">
 <ul>
 <li>
-<p><code>aspectjweaver</code> (boolean) default false. Adds <code>-javaagent</code> to tests</p>
+<p><strong>boolean</strong> <code>autoconfigure</code> (<code>default = <strong>false</strong></code>) - a flag to specify usage of autoconfiguration, plugin
+will attempt to find test platform integration provided by Gradle (currently works only for Junit4 and TestNG).</p>
 </li>
 <li>
-<p><code>junit</code> (boolean) default false. Enables allure for junit without @RunWith usage.
-(Adds <a href="https://github.com/d10xa/allure-junit-aspectj-adaptor">allure-junit-aspectj-adaptor</a>) based on AspectJ. Require <code>aspectjweaver</code></p>
+<p><strong>boolean</strong> <code>aspectjveaver</code> - a flag to specify inclusion/exclusion of aspectjweaver runtime agent</p>
 </li>
 <li>
-<p><code>testNG</code> (boolean) default false. Enables allure for testNG. Require <code>aspectjweaver</code></p>
+<p><strong>boolean</strong> <code>clean</code> (<code>default = <strong>true</strong></code>) - enable <code>--clean</code> option for the Allure commandline tool, <code>true</code> by default.</p>
 </li>
 <li>
-<p><code>spock</code> (boolean) default false. Enables allure for spock.</p>
+<p><strong>String</strong> <code>version</code> - specify report generator version, note, this property is necessary to enable <code>allure</code> and
+<code>aggregatedAllureReport</code> tasks</p>
 </li>
 <li>
-<p><code>geb</code> (boolean) default false. Adds <a href="https://github.com/d10xa/allure-spock-geb">allure-spock-geb</a> dependency for
-screenshot and html attachments. Specifications must extend geb.spock.GebReportingSpec class</p>
+<p><strong>String</strong> <code>configuration</code> (<code>default = <strong>'testCompile'</strong></code>) - configuration name where to bind plugin dependencies</p>
 </li>
 <li>
-<p><code>allureResultsDir</code> (string) default "$buildDir/allure-results". Test results will be placed to this directory.</p>
+<p><strong>File</strong> <code>resultsDir</code> - directory for Allure results in the current project, <code>build\allure-results</code> by default</p>
 </li>
 <li>
-<p><code>allureReportDir</code> (string) default "$buildDir/allure-report". Html report will be generated to this directory
-(if task&#8217;s property <code>to</code> not defined)</p>
+<p><strong>File</strong> <code>reportDir</code> - directory for Allure report in the current project, <code>build\reports\allure-report</code> by default</p>
 </li>
 <li>
-<p><code>allureVersion</code> (string).  Version of allure-bundle and allure-adaptors</p>
+<p><strong>String</strong> <code>allureJavaVersion</code> (<code>default = <strong>'2.0-BETA9'</strong></code>) - version of allure java release to be used for
+autoconfiguration</p>
 </li>
 <li>
-<p><code>aspectjVersion</code> (string). Version of <code>org.aspectj:aspectjweaver</code></p>
-</li>
-<li>
-<p><code>allureSpockGebExtensionVersion</code> (string). Version of <a href="https://github.com/d10xa/allure-spock-geb">allure-spock-geb</a></p>
-</li>
-<li>
-<p><code>allureJunitAspectjAdaptorVersion</code> (string). Version of
-<a href="https://github.com/d10xa/allure-junit-aspectj-adaptor">allure-junit-aspectj-adaptor</a></p>
-</li>
-<li>
-<p><code>configuration</code> (string) default 'testCompile'. Apply adaptors to this configuration. For example, you can select
-the configuration 'compile' and use the adaptor classes in your source code.</p>
-</li>
-<li>
-<p><code>clean</code> (boolean) default true. Execute appropriate clean tasks before tests and report generation.</p>
+<p><strong>String</strong> <code>downloadLink</code> - custom location of Allure distribution to download from, by default allure is downloaded
+from bintray by specified version and installed into <code>.allure</code> folder in the project root.</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_tasks">13.5.4. Tasks</h4>
+<div class="paragraph">
+<p>You can use some of the tasks that are defined in the plugin for your own convenience.</p>
+</div>
 <div class="sect4">
-<h5 id="__code_allurereport_code"><code>allureReport</code></h5>
+<h5 id="_allure">allure</h5>
 <div class="paragraph">
-<p>Creates html report for tests.</p>
+<p>Creates Allure report for a given list of input directories</p>
 </div>
 <div class="paragraph">
-<p>Add following snippet to build script if you want to create allure report after every test execution</p>
+<p>Parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>File</strong> <code>reportDir</code> - destination directory for Allure report</p>
+</li>
+<li>
+<p><strong>boolean</strong> <code>clean</code> - enable <code>--clean</code> option for the Allure commandline tool</p>
+</li>
+<li>
+<p><strong>String</strong> <code>version</code> - Allure Commandline version, will attempt to discover an installation of
+commandline with this version in the <code>.allure</code> folder in the root of your project.</p>
+</li>
+<li>
+<p><strong>List&lt;File&gt;</strong> <code>resultsDirs</code> - list of directories with Allure results.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>So to generate an Allure report for a multi-module project you will have to define your own
+<code>allureAggregatedReport</code> task, for example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">tasks.withType(Test)*.finalizedBy allureReport</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you don&#8217;t need this task(for example in child modules) - just delete it</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">tasks.remove allureReport</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Customize task&#8217;s parameters</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">allureReport {
-    from(
-            <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>project(<span class="string"><span class="delimiter">'</span><span class="content">:moduleA</span><span class="delimiter">'</span></span>).buildDir<span class="inline-delimiter">}</span></span><span class="content">/allure-results</span><span class="delimiter">&quot;</span></span>,
-            <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>project(<span class="string"><span class="delimiter">'</span><span class="content">:moduleB</span><span class="delimiter">'</span></span>).buildDir<span class="inline-delimiter">}</span></span><span class="content">/my-allure-results</span><span class="delimiter">&quot;</span></span>,
-    )
-    to <span class="string"><span class="delimiter">'</span><span class="content">$buildDir/nice-report</span><span class="delimiter">'</span></span>
+<pre class="CodeRay highlight"><code data-lang="groovy">plugins {
+    id <span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure</span><span class="delimiter">'</span></span>
+}
+
+allprojects { project -&gt;
+
+    apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure</span><span class="delimiter">'</span></span>
+
+    allure {
+        version = <span class="string"><span class="delimiter">'</span><span class="content">2.1.0</span><span class="delimiter">'</span></span>
+    }
+}
+
+<span class="keyword">import</span> <span class="include">io.qameta.allure.gradle.task.AllureReport</span>
+
+task allureAggregatedReport(<span class="key">type</span>: AllureReport) {
+    resultsDirs = subprojects.allure.resultsDir
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Or create your own task</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">task customAllureReport(<span class="key">type</span>: ru.d10xa.allure.AllureReportTask){
-}</code></pre>
-</div>
+<p>And invoke it like: <code>./gradlew clean build allureAggregatedReport</code></p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="__code_cleanallurereport_code"><code>cleanAllureReport</code></h5>
+<h5 id="_downloadallure">downloadAllure</h5>
 <div class="paragraph">
-<p>Deletes directory declared in <code>allureReportDir</code> parameter</p>
+<p>Downloads Allure Commandline from provided url and saves it into <code>.allure</code> folder in your project&#8217;s root
+directory.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>String</strong> <code>src</code> - url specifying download location for Allure Commandline.</p>
+</li>
+<li>
+<p><strong>String</strong> <code>version</code> - version parameter is needed to find the right version of Allure in the downloaded
+archive.</p>
+</li>
+<li>
+<p><strong>File</strong> <code>dest</code> - destination folder to install downloaded Allure Commandline.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>allure</code> task depends on <code>downloadAllure</code>, so in the default case there is no need to invoke it manually,
+whenever <code>allure</code> task is invoked, it will call <code>downloadAllure</code> first.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="__code_cleantest_code_or_code_cleanyourowntest_code"><code>cleanTest</code> or <code>cleanYourOwnTest</code></h5>
+<h5 id="_serve">serve</h5>
 <div class="paragraph">
-<p>Deletes the test results and allure results created by <code>test</code> or <code>yourOwnTest</code> task</p>
+<p>Can be used to generate and open report in the default browser after the build.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>String</strong> <code>version</code> - version to discover Allure Commandline installation in the <code>.allure/<strong>version</strong></code></p>
+</li>
+<li>
+<p><strong>List&lt;File&gt;</strong> <code>resultsDirs</code> - list of folders with results.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>By default <code>serve</code> task is configured by plugin for a single-module report and when executed will open it
+in the default browser.</p>
+</div>
+<div class="paragraph">
+<p>usage example: <code>./gradlew clean build serve</code></p>
 </div>
 </div>
 </div>
@@ -5092,7 +5202,7 @@ the configuration 'compile' and use the adaptor classes in your source code.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_8">13.6.2. Configuration</h4>
+<h4 id="_configuration_7">13.6.2. Configuration</h4>
 <div class="sect4">
 <h5 id="_properties_handling">Properties handling</h5>
 <div class="paragraph">
@@ -6085,7 +6195,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-06-28 22:43:14 +00:00
+Last updated 2017-07-02 17:52:32 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
