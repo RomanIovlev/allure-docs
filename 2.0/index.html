@@ -537,8 +537,8 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_overview_page">3.1. Overview page</a></li>
 <li><a href="#_categories">3.2. Categories</a></li>
-<li><a href="#_xunit">3.3. xUnit</a></li>
-<li><a href="#_graph">3.4. Graph</a></li>
+<li><a href="#_suites">3.3. Suites</a></li>
+<li><a href="#_graphs">3.4. Graphs</a></li>
 <li><a href="#_timeline">3.5. Timeline</a></li>
 <li><a href="#_behaviors">3.6. Behaviors</a></li>
 <li><a href="#_packages">3.7. Packages</a></li>
@@ -607,7 +607,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_jenkins">13.2. Jenkins</a></li>
 <li><a href="#_teamcity">13.3. TeamCity</a></li>
 <li><a href="#_bamboo">13.4. Bamboo</a></li>
-<li><a href="#_gradle_2">13.5. Gradle</a></li>
+<li><a href="#_gradle_3">13.5. Gradle</a></li>
 <li><a href="#_maven_4">13.6. Maven</a></li>
 </ul>
 </li>
@@ -889,7 +889,7 @@ are sortable.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/overview_tab.png" alt="Report overview">
+<img src="images/tab_overview.png" alt="Overview">
 </div>
 </div>
 <div class="paragraph">
@@ -929,30 +929,30 @@ are sortable.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/categories_tab.png" alt="Categories tab">
+<img src="images/tab_categories.png" alt="Categories">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_xunit">3.3. xUnit</h3>
+<h3 id="_suites">3.3. Suites</h3>
 <div class="paragraph">
-<p>On the xUnit tab a standard structural representation of executed tests, grouped by suites and classes can be found.</p>
+<p>On the Suites tab a standard structural representation of executed tests, grouped by suites and classes can be found.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/xunit_tab.png" alt="X Unit tab">
+<img src="images/tab_suites.png" alt="Suites">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_graph">3.4. Graph</h3>
+<h3 id="_graphs">3.4. Graphs</h3>
 <div class="paragraph">
 <p>Graphs allow you to see different statistics collected from the test data: statuses breakdown or
 severity and duration diagrams.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/dashboards_tab.png" alt="Dashboards tab overview">
+<img src="images/tab_graphs.png" alt="Graphs">
 </div>
 </div>
 </div>
@@ -964,18 +964,18 @@ and here on this tab they are arranged accordingly to their sequential or parall
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/timeline_tab.png" alt="Timeline tab overview">
+<img src="images/tab_timeline.png" alt="Timeline">
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_behaviors">3.6. Behaviors</h3>
 <div class="paragraph">
-<p>For Behavior-driven approach, this tab groups test results according to Feature and Story tags.</p>
+<p>For Behavior-driven approach, this tab groups test results according to Epic, Feature and Story tags.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/behaviors_tab.png" alt="Behaviors tab overview">
+<img src="images/tab_behaviors.png" alt="Behaviors">
 </div>
 </div>
 </div>
@@ -986,7 +986,7 @@ and here on this tab they are arranged accordingly to their sequential or parall
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/packages_tab.png" alt="Packages tab overview">
+<img src="images/tab_packages.png" alt="Packages">
 </div>
 </div>
 </div>
@@ -999,7 +999,7 @@ executed during the test, timings, attachments, test categorization labels, desc
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/testcase.png" alt="Test case result page">
+<img src="images/testcase.png" alt="Test result page">
 </div>
 </div>
 </div>
@@ -1034,12 +1034,22 @@ You have an option now to mark such tests in a special way, so resulting report 
 <div class="paragraph">
 <p>Here is what you get in the report in case if such test failed:</p>
 </div>
-<div class="paragraph">
-<p>+
-image::flaky_failed.png[A failed test marked as flaky]</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/flaky_failed.png" alt="A failed test marked as flaky">
 </div>
-<div class="paragraph">
-<p>Additional note - you could mark a whole test class as flaky as well.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+you could mark a whole test class as flaky as well.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1051,6 +1061,14 @@ image::flaky_failed.png[A failed test marked as flaky]</p>
 <h3 id="_junit_4">5.1. jUnit 4</h3>
 <div class="sect3">
 <h4 id="_installation">5.1.1. Installation</h4>
+<div class="paragraph">
+<p>The available latest version of <code>allure-junit4</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://img.shields.io/maven-central/v/io.qameta.allure/allure-junit4.svg" alt="Allure JUnit4">
+</div>
+</div>
 <div class="sect4">
 <h5 id="_maven">Maven</h5>
 <div class="paragraph">
@@ -1059,17 +1077,60 @@ image::flaky_failed.png[A failed test marked as flaky]</p>
 <div class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml">...
-<span class="tag">&lt;properties&gt;</span>
-    <span class="tag">&lt;aspectj.version&gt;</span>1.7.4<span class="tag">&lt;/aspectj.version&gt;</span>
-    <span class="tag">&lt;allure.version&gt;</span>{latest-allure-version}<span class="tag">&lt;/allure.version&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;properties&gt;</span>
+    <span class="tag">&lt;aspectj.version&gt;</span>1.8.10<span class="tag">&lt;/aspectj.version&gt;</span>
 <span class="tag">&lt;/properties&gt;</span>
 
 <span class="tag">&lt;dependencies&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
-        <span class="tag">&lt;groupId&gt;</span>ru.yandex.qatools.allure<span class="tag">&lt;/groupId&gt;</span>
-        <span class="tag">&lt;artifactId&gt;</span>allure-junit-adaptor<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>${allure.version}<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>allure-junit4<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>LATEST_VERSION<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
 <span class="tag">&lt;/dependencies&gt;</span>
 
@@ -1078,16 +1139,16 @@ image::flaky_failed.png[A failed test marked as flaky]</p>
         <span class="tag">&lt;plugin&gt;</span>
             <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
             <span class="tag">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="tag">&lt;/artifactId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>2.14<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;version&gt;</span>2.20<span class="tag">&lt;/version&gt;</span>
             <span class="tag">&lt;configuration&gt;</span>
                 <span class="tag">&lt;testFailureIgnore&gt;</span>false<span class="tag">&lt;/testFailureIgnore&gt;</span>
                 <span class="tag">&lt;argLine&gt;</span>
-                    -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+                    -javaagent:&quot;${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar&quot;
                 <span class="tag">&lt;/argLine&gt;</span>
                 <span class="tag">&lt;properties&gt;</span>
                     <span class="tag">&lt;property&gt;</span>
                         <span class="tag">&lt;name&gt;</span>listener<span class="tag">&lt;/name&gt;</span>
-                        <span class="tag">&lt;value&gt;</span>ru.yandex.qatools.allure.junit.AllureRunListener<span class="tag">&lt;/value&gt;</span>
+                        <span class="tag">&lt;value&gt;</span>io.qameta.allure.junit4.AllureJunit4<span class="tag">&lt;/value&gt;</span>
                     <span class="tag">&lt;/property&gt;</span>
                 <span class="tag">&lt;/properties&gt;</span>
             <span class="tag">&lt;/configuration&gt;</span>
@@ -1101,7 +1162,8 @@ image::flaky_failed.png[A failed test marked as flaky]</p>
         <span class="tag">&lt;/plugin&gt;</span>
     <span class="tag">&lt;/plugins&gt;</span>
 <span class="tag">&lt;/build&gt;</span>
-...</code></pre>
+...</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1114,82 +1176,162 @@ image::flaky_failed.png[A failed test marked as flaky]</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_ant">Ant</h5>
+<h5 id="_gradle">Gradle</h5>
 <div class="paragraph">
-<p>Right now using Allure with <a href="http://ant.apache.org">Ant</a> is not possible,
-because the <a href="http://junit.sourceforge.net/javadoc/org/junit/runner/notification/RunListener.html">RunListener</a> that we
-provide is only supported in JUnit 4, whereas even the latest version of Ant requires the implementation of JUnit 3 specific interfaces.</p>
+<p>For Gradle users there is <code>allure-gradle</code> plugin available, that can autoconfigure all the required dependencies:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td>
+  <td class="code"><pre>buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath <span class="string"><span class="delimiter">&quot;</span><span class="content">io.qameta.allure:allure-gradle:2.3</span><span class="delimiter">&quot;</span></span>
+    }
+}
+
+plugins {
+    id <span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure</span><span class="delimiter">'</span></span>
+}
+
+allure {
+    version = <span class="string"><span class="delimiter">'</span><span class="content">2.2.1</span><span class="delimiter">'</span></span>
+    autoconfigure = <span class="predefined-constant">true</span>
+    aspectjweaver = <span class="predefined-constant">true</span>
+    allureJavaVersion = LATEST_VERSION
+}
+</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then run the build as usual:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">$ ./gradlew clean test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Allure results will appear in <strong>build/allure-results</strong> folder. To generate html report and automatically open it in a web browser, run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">$ ./gradlew allureServe build/allure-results</code></pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_features_2">5.1.2. Features</h4>
 <div class="paragraph">
-<p>This adapter comes with a set of Java annotations and traits allowing to use main Allure features.</p>
+<p>This integration comes with a set of Java annotations and traits allowing to use main Allure features.</p>
 </div>
 <div class="sect4">
-<h5 id="_title">Title</h5>
+<h5 id="_displayname">DisplayName</h5>
 <div class="paragraph">
-<p>In order to add such title to any test class or <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#test-case">test case</a>
-method you need to annotate it with <strong>@Title</strong> annotation:</p>
+<p>In order to add human-readable name to any test method you need to annotate it with <strong>@DisplayName</strong> annotation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td>
+  <td class="code"><pre><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
 
 <span class="keyword">import</span> <span class="include">org.junit.Test</span>;
-<span class="keyword">import</span> <span class="include">ru.yandex.qatools.allure.annotations.Title</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.junit4.DisplayName</span>;
 
-<span class="annotation">@Title</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Human-readable test suite title</span><span class="delimiter">&quot;</span></span>)
-<span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyTests</span> {
 
     <span class="annotation">@Test</span>
-    <span class="annotation">@Title</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Human-readable test case title</span><span class="delimiter">&quot;</span></span>)
-    <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
-        ...
+    <span class="annotation">@DisplayName</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Human-readable test name</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="type">void</span> testSomething() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        <span class="comment">//...</span>
     }
 
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_description">Description</h5>
 <div class="paragraph">
-<p>Similarly you can add detailed description for each test class and
-<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#test-case">test method</a>.</p>
-</div>
-<div class="paragraph">
-<p>To add such description simply use <strong>@Description</strong> annotation:</p>
+<p>Similarly you can add detailed description for each test method. To add such description use <strong>@Description</strong> annotation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td>
+  <td class="code"><pre><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
 
 <span class="keyword">import</span> <span class="include">org.junit.Test</span>;
-<span class="keyword">import</span> <span class="include">ru.yandex.qatools.allure.annotations.Description</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Description</span>;
 
 <span class="annotation">@Test</span>
-<span class="annotation">@Description</span>(
-        value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this &lt;a href=</span><span class="delimiter">&quot;</span></span>...<span class="string"><span class="delimiter">&quot;</span><span class="content">&gt;test suite&lt;/a&gt;.</span><span class="delimiter">&quot;</span></span>,
-        type = DescriptionType.HTML
-)
-<span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyTests</span> {
 
     <span class="annotation">@Test</span>
-    <span class="annotation">@Description</span>(
-            value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this *test case*.</span><span class="delimiter">&quot;</span></span>,
-            type = DescriptionType.MARKDOWN
-    )
-    <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="annotation">@Description</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Some detailed test description</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="type">void</span> testSomething() <span class="directive">throws</span> <span class="exception">Exception</span> {
         ...
     }
 
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Description can be added in plain <strong>text</strong>, <strong>HTML</strong> or <strong>Markdown</strong> format - simply assign different <strong>type</strong> value.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1200,33 +1342,64 @@ They can: be parametrized, make checks, have nested steps, and create attachment
 </div>
 <div class="paragraph">
 <p>In order to define steps in Java code, you need to annotate the respective methods with <strong>@Step</strong> annotation.
-When not specified, the step name is equal to the annotated method name converted to human-readable format.
-To define an explicit step name:</p>
+When not specified, the step name is equal to the annotated method name converted to human-readable format.</p>
+</div>
+<div class="paragraph">
+<p>Note that steps' mechanics was revised and now it supports smart fields' analysis.
+In Allure 1 users had to specify indexes to refer which args' values they want to inject into step.
+Allure 2 uses reflection-based approach, which provides deep fields' extraction by their names.</p>
+</div>
+<div class="paragraph">
+<p>Assuming that you have the following entity:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Step</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Open {0} page.</span><span class="delimiter">&quot;</span></span>)
-<span class="directive">public</span> <span class="type">void</span> openPageByAddress(<span class="predefined-type">String</span> pageAddress) {
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre><span class="directive">public</span> <span class="type">class</span> <span class="class">User</span> {
+
+     <span class="directive">private</span> <span class="predefined-type">String</span> name;
+     <span class="directive">private</span> <span class="predefined-type">String</span> password;
      ...
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Step names support the following placeholders:</p>
+<p>You can access these fields' values directly by name:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>{N}</strong> where N is a zero-based positive integer that will be replaced by the Nth method argument value (0 corresponds
-to the first argument, 1 to the second, etc.). See example above.</p>
-</li>
-<li>
-<p><strong>{method}</strong> will be replaced by the annotated method name e.g. <strong>openPageByAddress</strong></p>
-</li>
-</ul>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Step</span>;
+
+...
+
+<span class="annotation">@Step</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Type {user.name} / {user.password}.</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">void</span> loginWith(User user) {
+     ...
+}</pre></td>
+</tr></table></code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Depending on the project layout, you can consider adding Allure dependency to the test scope only.</p>
+<p><strong>Arrays</strong> and <strong>Collections</strong> are supported as well.
+So you don&#8217;t need to explicitly override <strong>toString()</strong> for your custom objects anymore.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1237,7 +1410,26 @@ a <strong>String</strong> or <strong>byte[]</strong>, which should be added to t
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Attachment</span>
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Attachment</span>;
+
+...
+
+<span class="annotation">@Attachment</span>
 <span class="directive">public</span> <span class="predefined-type">String</span> performedActions(ActionSequence actionSequence) {
     <span class="keyword">return</span> actionSequence.toString();
 }
@@ -1245,12 +1437,52 @@ a <strong>String</strong> or <strong>byte[]</strong>, which should be added to t
 <span class="annotation">@Attachment</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type = <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">byte</span><span class="type">[]</span> saveScreenshot(<span class="type">byte</span><span class="type">[]</span> screenShot) {
     <span class="keyword">return</span> screenShot;
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If return type in a method annotated with <strong>@Attachment</strong> differs from <strong>String</strong> or <strong>byte[]</strong> we call <strong>toString()</strong>
-on return value to get attachment contents.</p>
+<p>Or you can use Allure helper methods</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Allure</span>;
+
+...
+
+Allure.addAttachment(<span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment content</span><span class="delimiter">&quot;</span></span>);
+
+Path content = Paths.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">path-to-my-attachment-contnet</span><span class="delimiter">&quot;</span></span>);
+<span class="keyword">try</span> (InputSteam is = Files.newInputStream(content)) {
+    Allure.addAttachemnt(<span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment</span><span class="delimiter">&quot;</span></span>, is);
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If return type in a method annotated with <strong>@Attachment</strong> differs from <strong>String</strong> or <strong>byte[]</strong> we call <strong>toString()</strong>
+on return value to get attachment contents.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>You can specify exact MIME type for each attached file using <strong>type</strong> parameter of <strong>@Attachment</strong> annotation
@@ -1260,84 +1492,69 @@ specify attachment type when working with plain text files.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_issues_tracker">Issues Tracker</h5>
+<h5 id="_links">Links</h5>
 <div class="paragraph">
-<p>To link a <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#test-case">test case</a> or a
-<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#test-suite">test suite</a> to such issues,
-you can use <strong>@Issue</strong> annotation. Simply specify the issue key as shown below:</p>
+<p>ou can link your tests to some resources such as TMS (test management system) or but tracker.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">MYISSUE-1</span><span class="delimiter">&quot;</span></span>)
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Link</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Issue</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.TmsLink</span>;
+
+<span class="annotation">@Link</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">https://example.org</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Link</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">allure</span><span class="delimiter">&quot;</span></span>, type = <span class="string"><span class="delimiter">&quot;</span><span class="content">mylink</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">void</span> testSomething() {
      ...
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To add multiple issues, use <strong>@Issues</strong> annotation:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Issues</span>({
-    <span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">MYISSUE-1</span><span class="delimiter">&quot;</span></span>),
-    <span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">MYISSUE-2</span><span class="delimiter">&quot;</span></span>)
-})
+}
+
+<span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">432</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">void</span> testSomething() {
      ...
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To specify the issue tracker URL, use the <strong>allure.issues.tracker.pattern</strong> property during report generation
-(either in the <strong>allure.properties</strong> file or as your build tool property):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>allure.issues.tracker.pattern=http://github.com/allure-framework/allure-core/issues/%s</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_test_management_system">Test Management System</h5>
-<div class="paragraph">
-<p>To link a <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#test-case">test case</a> to Test Management System,
-you can use <strong>@TestCaseId</strong> annotation. Simply specify the test case ID as shown below:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@TestCaseId</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">TMS-1</span><span class="delimiter">&quot;</span></span>)
+}
+
+<span class="annotation">@TmsLink</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">test-1</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@TmsLink</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">test-2</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">void</span> testSomething() {
      ...
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_parameters">Parameters</h5>
 <div class="paragraph">
-<p>In order to add information about test method
-<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#parameter">parameters</a>
-you should use <strong>@Parameter</strong> annotation:</p>
+<p>In order to specify the link pattern you can use the system property in the following format:
+<code>allure.link.my-link-type.pattern=https://example.org/custom/{}/path</code>. Allure will replace <code>{}</code> placeholders with
+value specified in annotation. For example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
-
-<span class="keyword">import</span> <span class="include">org.junit.Test</span>;
-<span class="keyword">import</span> <span class="include">ru.yandex.qatools.allure.annotations.Parameter</span>;
-
-<span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
-
-    <span class="annotation">@Parameter</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Base web driver url</span><span class="delimiter">&quot;</span></span>)
-    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span> baseUrl = <span class="string"><span class="delimiter">&quot;</span><span class="content">http://...</span><span class="delimiter">&quot;</span></span>;
-
-    <span class="annotation">@Test</span>
-    <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
-
-    }
-
-}</code></pre>
+<pre class="CodeRay highlight"><code data-lang="linenums">allure.link.mylink.pattern=https://example.org/mylink/{}
+allure.link.issue.pattern=https://example.org/issue/{}
+allure.link.tms.pattern=https://example.org/tms/{}</code></pre>
 </div>
 </div>
 </div>
@@ -1348,83 +1565,108 @@ you should use <strong>@Parameter</strong> annotation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td>
+  <td class="code"><pre><span class="keyword">package</span> <span class="namespace">org.example.tests</span>;
 
 <span class="keyword">import</span> <span class="include">org.junit.Test</span>;
-<span class="keyword">import</span> <span class="include">ru.yandex.qatools.allure.annotations.Severity</span>;
-<span class="keyword">import</span> <span class="include">ru.yandex.qatools.allure.model.SeverityLevel</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Severity</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.SeverityLevel</span>;
 
-<span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyTest</span> {
 
     <span class="annotation">@Test</span>
     <span class="annotation">@Severity</span>(SeverityLevel.CRITICAL)
-    <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
-
+    <span class="directive">public</span> <span class="type">void</span> testSomething() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        <span class="comment">// ...</span>
     }
 
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_behaviours_mapping">Behaviours Mapping</h5>
 <div class="paragraph">
-<p>In some development approaches tests are classified by
-<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#user-story">stories</a>
-and <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#feature">features</a>.
-If you&#8217;re using this then you can annotate your test with <strong>@Stories</strong> and <strong>@Features</strong> annotations:</p>
+<p>In some development approaches tests are classified by Features and Stories. To add such mapping you
+can use <code>Epic</code>, <code>Feature</code> and <code>Stories</code> annotations:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td>
+  <td class="code"><pre><span class="keyword">package</span> <span class="namespace">org.example.tests</span>;
 
 <span class="keyword">import</span> <span class="include">org.junit.Test</span>;
-<span class="keyword">import</span> <span class="include">ru.yandex.qatools.allure.annotations.Features</span>;
-<span class="keyword">import</span> <span class="include">ru.yandex.qatools.allure.annotations.Stories</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Epic</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Feature</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Story</span>;
 
-<span class="annotation">@Features</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">nested-test-cases-feature</span><span class="delimiter">&quot;</span></span>})
-<span class="annotation">@Stories</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">nested-test-cases-story</span><span class="delimiter">&quot;</span></span>})
-<span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
+<span class="annotation">@Epic</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Allure examples</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Feature</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Junit 4 support</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyTest</span> {
 
     <span class="annotation">@Test</span>
-    <span class="annotation">@Features</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">test-case-feature</span><span class="delimiter">&quot;</span></span>})
-    <span class="annotation">@Stories</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">test-case-story</span><span class="delimiter">&quot;</span></span>})
-    <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
-        ...
+    <span class="annotation">@Story</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Base support for bdd annotations</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@Story</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Advanced support for bdd annotations</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="type">void</span> testSomething() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        <span class="comment">// ...</span>
     }
 
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>You will then be able to filter tests by specified features and stories in generated Allure report.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_testng">5.2. TestNG</h3>
-<div class="paragraph">
-<p>An Allure report can be generated for any TestNG test. In order to get test results, you need to:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Setup latest <a href="https://docs.qameta.io/allure/latest/#_installing_a_commandline">allure-commandline</a> version.</p>
-</li>
-<li>
-<p>Add <strong>allure-testng</strong> dependency.</p>
-</li>
-<li>
-<p>Add <strong>aspectjweaver</strong> dependency and its properties.</p>
-</li>
-<li>
-<p>Run tests.</p>
-</li>
-</ul>
-</div>
 <div class="sect3">
 <h4 id="_installation_2">5.2.1. Installation</h4>
+<div class="paragraph">
+<p>The available latest version of <code>allure-testng</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://img.shields.io/maven-central/v/io.qameta.allure/allure-testng.svg" alt="Allure TestNG">
+</div>
+</div>
 <div class="sect4">
 <h5 id="_maven_2">Maven</h5>
 <div class="paragraph">
@@ -1433,29 +1675,52 @@ If you&#8217;re using this then you can annotate your test with <strong>@Stories
 <div class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;properties&gt;</span>
-    <span class="tag">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span class="tag">&lt;/project.build.sourceEncoding&gt;</span>
-    <span class="tag">&lt;compiler.plugin.version&gt;</span>3.6.0<span class="tag">&lt;/compiler.plugin.version&gt;</span>
-    <span class="tag">&lt;java.version&gt;</span>1.8<span class="tag">&lt;/java.version&gt;</span>
-    <span class="tag">&lt;surefire.plugin.version&gt;</span>2.19.1<span class="tag">&lt;/surefire.plugin.version&gt;</span>
-    <span class="tag">&lt;allure.version&gt;</span>2.0-BETA6<span class="tag">&lt;/allure.version&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;properties&gt;</span>
     <span class="tag">&lt;aspectj.version&gt;</span>1.8.10<span class="tag">&lt;/aspectj.version&gt;</span>
-    <span class="tag">&lt;allure.results.directory&gt;</span>
-        ${project.build.directory}/allure-results
-    <span class="tag">&lt;/allure.results.directory&gt;</span>
-    <span class="tag">&lt;tms&gt;</span>
-        https://github.com/allure-framework/allure-docs/issues/{}
-    <span class="tag">&lt;/tms&gt;</span>
-    <span class="tag">&lt;issues.tracker&gt;</span>
-        https://github.com/allure-framework/allure-docs/issues/{}
-    <span class="tag">&lt;/issues.tracker&gt;</span>
 <span class="tag">&lt;/properties&gt;</span>
 
 <span class="tag">&lt;dependencies&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
         <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>allure-testng<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>${allure.version}<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>LAST_VERSION<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
 <span class="tag">&lt;/dependencies&gt;</span>
 
@@ -1463,45 +1728,11 @@ If you&#8217;re using this then you can annotate your test with <strong>@Stories
     <span class="tag">&lt;plugins&gt;</span>
         <span class="tag">&lt;plugin&gt;</span>
             <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
-            <span class="tag">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="tag">&lt;/artifactId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>${compiler.plugin.version}<span class="tag">&lt;/version&gt;</span>
-            <span class="tag">&lt;configuration&gt;</span>
-                <span class="tag">&lt;source&gt;</span>${java.version}<span class="tag">&lt;/source&gt;</span>
-                <span class="tag">&lt;target&gt;</span>${java.version}<span class="tag">&lt;/target&gt;</span>
-            <span class="tag">&lt;/configuration&gt;</span>
-        <span class="tag">&lt;/plugin&gt;</span>
-        <span class="tag">&lt;plugin&gt;</span>
-            <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
             <span class="tag">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="tag">&lt;/artifactId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>${surefire.plugin.version}<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;version&gt;</span>2.20<span class="tag">&lt;/version&gt;</span>
             <span class="tag">&lt;configuration&gt;</span>
-                <span class="tag">&lt;properties&gt;</span>
-                    <span class="tag">&lt;property&gt;</span>
-                        <span class="tag">&lt;name&gt;</span>usedefaultlisteners<span class="tag">&lt;/name&gt;</span>
-                        <span class="tag">&lt;value&gt;</span>false<span class="tag">&lt;/value&gt;</span>
-                    <span class="tag">&lt;/property&gt;</span>
-                <span class="tag">&lt;/properties&gt;</span>
-                <span class="tag">&lt;systemProperties&gt;</span>
-                    <span class="tag">&lt;property&gt;</span>
-                        <span class="tag">&lt;name&gt;</span>allure.results.directory<span class="tag">&lt;/name&gt;</span>
-                        <span class="tag">&lt;value&gt;</span>${allure.results.directory}<span class="tag">&lt;/value&gt;</span>
-                    <span class="tag">&lt;/property&gt;</span>
-                    <span class="tag">&lt;property&gt;</span>
-                        <span class="tag">&lt;name&gt;</span>allure.link.issue.pattern<span class="tag">&lt;/name&gt;</span>
-                        <span class="tag">&lt;value&gt;</span>${issues.tracker}<span class="tag">&lt;/value&gt;</span>
-                    <span class="tag">&lt;/property&gt;</span>
-                    <span class="tag">&lt;property&gt;</span>
-                        <span class="tag">&lt;name&gt;</span>allure.link.tms.pattern<span class="tag">&lt;/name&gt;</span>
-                        <span class="tag">&lt;value&gt;</span>${tms}<span class="tag">&lt;/value&gt;</span>
-                    <span class="tag">&lt;/property&gt;</span>
-                <span class="tag">&lt;/systemProperties&gt;</span>
-                <span class="tag">&lt;suiteXmlFiles&gt;</span>
-                    <span class="tag">&lt;suiteXmlFile&gt;</span>
-                        src/test/resources/testng.xml
-                    <span class="tag">&lt;/suiteXmlFile&gt;</span>
-                <span class="tag">&lt;/suiteXmlFiles&gt;</span>
                 <span class="tag">&lt;argLine&gt;</span>
-                    -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+                    -javaagent:&quot;${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar&quot;
                 <span class="tag">&lt;/argLine&gt;</span>
             <span class="tag">&lt;/configuration&gt;</span>
             <span class="tag">&lt;dependencies&gt;</span>
@@ -1513,7 +1744,8 @@ If you&#8217;re using this then you can annotate your test with <strong>@Stories
             <span class="tag">&lt;/dependencies&gt;</span>
         <span class="tag">&lt;/plugin&gt;</span>
     <span class="tag">&lt;/plugins&gt;</span>
-<span class="tag">&lt;/build&gt;</span></code></pre>
+<span class="tag">&lt;/build&gt;</span></pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1534,40 +1766,55 @@ If you&#8217;re using this then you can annotate your test with <strong>@Stories
 </div>
 </div>
 <div class="sect4">
-<h5 id="_gradle">Gradle</h5>
+<h5 id="_gradle_2">Gradle</h5>
 <div class="paragraph">
-<p>You need to add the following to <strong>build.gradle</strong>:</p>
+<p>For Gradle users there is <code>allure-gradle</code> plugin available, that can autoconfigure all the required dependencies:</p>
 </div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">java</span><span class="delimiter">'</span></span>
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-configurations {
-    agent
-}
-
-dependencies {
-    agent <span class="string"><span class="delimiter">&quot;</span><span class="content">org.aspectj:aspectjweaver:1.8.10</span><span class="delimiter">&quot;</span></span>
-    compile <span class="string"><span class="delimiter">&quot;</span><span class="content">io.qameta.allure:allure-testng:2.0-BETA6</span><span class="delimiter">&quot;</span></span>
-}
-
-test.doFirst {
-    jvmArgs <span class="string"><span class="delimiter">&quot;</span><span class="content">-javaagent:</span><span class="inline"><span class="inline-delimiter">${</span>configurations.agent.singleFile<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
-}
-
-test {
-    useTestNG() {
-        suites <span class="string"><span class="delimiter">'</span><span class="content">src/test/resources/testng.xml</span><span class="delimiter">'</span></span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td>
+  <td class="code"><pre>buildscript {
+    repositories {
+        jcenter()
     }
+    dependencies {
+        classpath <span class="string"><span class="delimiter">&quot;</span><span class="content">io.qameta.allure:allure-gradle:2.3</span><span class="delimiter">&quot;</span></span>
+    }
+}
 
-    systemProperty <span class="string"><span class="delimiter">'</span><span class="content">allure.results.directory</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">build/allure-results</span><span class="delimiter">'</span></span>
-    systemProperty <span class="string"><span class="delimiter">'</span><span class="content">allure.link.issue.pattern</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">https://github.com/allure-framework/allure-docs/issues/{}</span><span class="delimiter">'</span></span>
-    systemProperty <span class="string"><span class="delimiter">'</span><span class="content">allure.link.tms.pattern</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">https://github.com/allure-framework/allure-docs/issues/{}</span><span class="delimiter">'</span></span>
-}</code></pre>
+plugins {
+    id <span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure</span><span class="delimiter">'</span></span>
+}
+
+allure {
+    version = <span class="string"><span class="delimiter">'</span><span class="content">2.2.1</span><span class="delimiter">'</span></span>
+    autoconfigure = <span class="predefined-constant">true</span>
+    aspectjweaver = <span class="predefined-constant">true</span>
+    allureJavaVersion = LATEST_VERSION
+}
+</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1583,7 +1830,7 @@ test {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">$ allure serve build/allure-results</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">$ ./gradlew allureServe build/allure-results</code></pre>
 </div>
 </div>
 </div>
@@ -1592,6 +1839,96 @@ test {
 <h4 id="_features_3">5.2.2. Features</h4>
 <div class="paragraph">
 <p>This adapter comes with a set of Java annotations and traits allowing to use main Allure features.</p>
+</div>
+<div class="sect4">
+<h5 id="_displayname_2">DisplayName</h5>
+<div class="paragraph">
+<p>In order to add human-readable name to any test method you need to use <code>description</code> property of <code>@Test</code> annotation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td>
+  <td class="code"><pre><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
+
+<span class="keyword">import</span> <span class="include">org.testng.annotations.Test</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyTests</span> {
+
+    <span class="annotation">@BeforeMethod</span>(description = <span class="string"><span class="delimiter">&quot;</span><span class="content">Configure something before test</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="type">void</span> setUp() {
+        <span class="comment">//...</span>
+    }
+
+    <span class="annotation">@Test</span>(description = <span class="string"><span class="delimiter">&quot;</span><span class="content">Human-readable test name</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="type">void</span> testSomething() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        <span class="comment">//...</span>
+    }
+
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_description_2">Description</h5>
+<div class="paragraph">
+<p>Similarly you can add detailed description for each test method. To add such description use <strong>@Description</strong> annotation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td>
+  <td class="code"><pre><span class="keyword">package</span> <span class="namespace">my.company.tests</span>;
+
+<span class="keyword">import</span> <span class="include">org.junit.Test</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Description</span>;
+
+<span class="annotation">@Test</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyTests</span> {
+
+    <span class="annotation">@Test</span>
+    <span class="annotation">@Description</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Some detailed test description</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="type">void</span> testSomething() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        ...
+    }
+
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
 </div>
 <div class="sect4">
 <h5 id="_steps_2">Steps</h5>
@@ -1613,12 +1950,21 @@ Allure 2 uses reflection-based approach, which provides deep fields' extraction 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">User</span> {
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre><span class="directive">public</span> <span class="type">class</span> <span class="class">User</span> {
 
      <span class="directive">private</span> <span class="predefined-type">String</span> name;
      <span class="directive">private</span> <span class="predefined-type">String</span> password;
      ...
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1626,10 +1972,25 @@ Allure 2 uses reflection-based approach, which provides deep fields' extraction 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Step</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Type {user.name} / {user.password}.</span><span class="delimiter">&quot;</span></span>)
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Step</span>;
+
+...
+
+<span class="annotation">@Step</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Type {user.name} / {user.password}.</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">void</span> loginWith(User user) {
      ...
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1640,190 +2001,157 @@ So you don&#8217;t need to explicitly override <strong>toString()</strong> for y
 <div class="sect4">
 <h5 id="_attachments_2">Attachments</h5>
 <div class="paragraph">
-<p>An attachment in Java code is simply an utility method <strong>addAttachment</strong> that accepts different arguments such as name, MIME type, content and file extension.
-Attachments could be added to either individual steps or the entire test case.</p>
+<p>An attachment in Java code is simply a method annotated with <strong>@Attachment</strong> that returns either
+a <strong>String</strong> or <strong>byte[]</strong>, which should be added to the report:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Step</span>
-<span class="directive">public</span> MyPage doSomething() {
-    ...
-    Allure.addAttachment(<span class="string"><span class="delimiter">&quot;</span><span class="content">Log</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/plain</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">additionalStepLog</span><span class="delimiter">&quot;</span></span>);
-    <span class="keyword">return</span> <span class="local-variable">this</span>;
-}</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">BaseListener.java</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">BaseListener</span> <span class="directive">implements</span> IInvokedMethodListener {
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Attachment</span>;
 
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">void</span> beforeInvocation(IInvokedMethod method, ITestResult testResult) {
-    }
+...
 
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="type">void</span> afterInvocation(IInvokedMethod method, ITestResult testResult) {
-        <span class="keyword">if</span> (method.isTestMethod())
-            Allure.addAttachment(<span class="string"><span class="delimiter">&quot;</span><span class="content">Screenshot</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>,
-                <span class="keyword">new</span> <span class="predefined-type">ByteArrayInputStream</span>(getDriver().getScreenshotAs(OutputType.BYTES)), <span class="string"><span class="delimiter">&quot;</span><span class="content">png</span><span class="delimiter">&quot;</span></span>);
-    }
-}</code></pre>
+<span class="annotation">@Attachment</span>
+<span class="directive">public</span> <span class="predefined-type">String</span> performedActions(ActionSequence actionSequence) {
+    <span class="keyword">return</span> actionSequence.toString();
+}
+
+<span class="annotation">@Attachment</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type = <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">byte</span><span class="type">[]</span> saveScreenshot(<span class="type">byte</span><span class="type">[]</span> screenShot) {
+    <span class="keyword">return</span> screenShot;
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Note that Allure 2 also supports async attachments, which are especially useful with heavy files, like videos or HARs.
-So you don&#8217;t need to block test execution and wait until resources are finalized.</p>
+<p>Or you can use Allure helper methods</p>
 </div>
 <div class="listingblock">
-<div class="title">BaseListener.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">BaseListener</span> <span class="directive">implements</span> IInvokedMethodListener, ISuiteListener {
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Allure</span>;
 
-        <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">List</span>&lt;CompletableFuture&lt;<span class="predefined-type">InputStream</span>&gt;&gt; VIDEOS =
-                <span class="keyword">new</span> <span class="predefined-type">CopyOnWriteArrayList</span>&lt;&gt;();
+...
 
-        <span class="annotation">@Override</span>
-        <span class="directive">public</span> <span class="type">void</span> beforeInvocation(IInvokedMethod method, ITestResult testResult) {
-        }
+Allure.addAttachment(<span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment content</span><span class="delimiter">&quot;</span></span>);
 
-        <span class="annotation">@Override</span>
-        <span class="directive">public</span> <span class="type">void</span> afterInvocation(IInvokedMethod method, ITestResult testResult) {
-                <span class="keyword">if</span> (method.isTestMethod()) {
-                        VIDEOS.add(addStreamAttachmentAsync(<span class="string"><span class="delimiter">&quot;</span><span class="content">Async</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">video/mp4</span><span class="delimiter">&quot;</span></span>,
-                                        () -&gt; getClass().getResourceAsStream(<span class="string"><span class="delimiter">&quot;</span><span class="content">/video.mp4</span><span class="delimiter">&quot;</span></span>)));
-                }
-        }
-
-        <span class="annotation">@Override</span>
-        <span class="directive">public</span> <span class="type">void</span> onStart(ISuite suite) {
-        }
-
-        <span class="annotation">@Override</span>
-        <span class="directive">public</span> <span class="type">void</span> onFinish(ISuite suite) {
-                CompletableFuture.allOf(VIDEOS.stream()
-                        .toArray(CompletableFuture<span class="type">[]</span>::<span class="keyword">new</span>)).join();
-        }
-}</code></pre>
+Path content = Paths.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">path-to-my-attachment-contnet</span><span class="delimiter">&quot;</span></span>);
+<span class="keyword">try</span> (InputSteam is = Files.newInputStream(content)) {
+    Allure.addAttachemnt(<span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment</span><span class="delimiter">&quot;</span></span>, is);
+}</pre></td>
+</tr></table></code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If return type in a method annotated with <strong>@Attachment</strong> differs from <strong>String</strong> or <strong>byte[]</strong> we call <strong>toString()</strong>
+on return value to get attachment contents.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>You can call the following methods to perform async attachments: <strong>addStreamAttachmentAsync</strong> and <strong>addByteAttachmentAsync</strong>.
-Both return <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html">CompletableFuture</a>,
-which could be then easily managed on client side.</p>
+<p>You can specify exact MIME type for each attached file using <strong>type</strong> parameter of <strong>@Attachment</strong> annotation
+like shown above. However there&#8217;s no need to explicitly specify attachment type for all attached files as Allure
+by default analyses attachment contents and can determine attachment type automatically. You usually need to
+specify attachment type when working with plain text files.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_issues_tracker_2">Issues Tracker</h5>
+<h5 id="_links_2">Links</h5>
 <div class="paragraph">
-<p>To link a <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#test-case">test case</a> or a
-<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#test-suite">test suite</a> to such issues,
-you can use <strong>@Issue</strong> annotation. Simply specify the issue key as shown below:</p>
+<p>ou can link your tests to some resources such as TMS (test management system) or but tracker.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">MYISSUE-1</span><span class="delimiter">&quot;</span></span>)
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Link</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Issue</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.TmsLink</span>;
+
+<span class="annotation">@Link</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">https://example.org</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Link</span>(name = <span class="string"><span class="delimiter">&quot;</span><span class="content">allure</span><span class="delimiter">&quot;</span></span>, type = <span class="string"><span class="delimiter">&quot;</span><span class="content">mylink</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">void</span> testSomething() {
      ...
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To add multiple issues, you can use repeatable <strong>@Issue</strong> annotation:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">MYISSUE-1</span><span class="delimiter">&quot;</span></span>)
-<span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">MYISSUE-2</span><span class="delimiter">&quot;</span></span>)
+}
+
+<span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Issue</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">432</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">void</span> testSomething() {
      ...
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To specify the issue tracker URL, use the <strong>allure.link.issue.pattern</strong> property during tests execution
-(either as a system or your build tool property):</p>
-</div>
-<div class="listingblock">
-<div class="title">pom.xml</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;build&gt;</span>
-    <span class="tag">&lt;plugins&gt;</span>
-        <span class="tag">&lt;plugin&gt;</span>
-            <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
-            <span class="tag">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="tag">&lt;/artifactId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>${surefire.plugin.version}<span class="tag">&lt;/version&gt;</span>
-            <span class="tag">&lt;configuration&gt;</span>
-                ...
-                <span class="tag">&lt;systemProperties&gt;</span>
-                    <span class="tag">&lt;property&gt;</span>
-                        <span class="tag">&lt;name&gt;</span>allure.link.issue.pattern<span class="tag">&lt;/name&gt;</span>
-                        <span class="tag">&lt;value&gt;</span>https://github.com/allure-framework/allure-docs/issues/{}<span class="tag">&lt;/value&gt;</span>
-                    <span class="tag">&lt;/property&gt;</span>
-                <span class="tag">&lt;/systemProperties&gt;</span>
-            <span class="tag">&lt;/configuration&gt;</span>
-        <span class="tag">&lt;/plugin&gt;</span>
-    <span class="tag">&lt;/plugins&gt;</span>
-<span class="tag">&lt;/build&gt;</span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">$ mvn clean test -Dallure.link.issue.pattern=https://github.com/allure-framework/allure-docs/issues/{}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Where <strong>{}</strong> is a placeholder for keys, specified in <strong>@Issue</strong> annotations.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_test_management_system_2">Test Management System</h5>
-<div class="paragraph">
-<p>To link a <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#test-case">test case</a> to Test Management System,
-you can use <strong>@TmsLink</strong> annotation. Simply specify the test case ID as shown below:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@TmsLink</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">TMS-1</span><span class="delimiter">&quot;</span></span>)
+}
+
+<span class="annotation">@TmsLink</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">test-1</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@TmsLink</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">test-2</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">void</span> testSomething() {
      ...
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To specify the test management system URL, use the <strong>allure.link.tms.pattern</strong> property during tests execution
-(either as a system or your build tool property):</p>
-</div>
-<div class="listingblock">
-<div class="title">pom.xml</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;build&gt;</span>
-    <span class="tag">&lt;plugins&gt;</span>
-        <span class="tag">&lt;plugin&gt;</span>
-            <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
-            <span class="tag">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="tag">&lt;/artifactId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>${surefire.plugin.version}<span class="tag">&lt;/version&gt;</span>
-            <span class="tag">&lt;configuration&gt;</span>
-                ...
-                <span class="tag">&lt;systemProperties&gt;</span>
-                    <span class="tag">&lt;property&gt;</span>
-                        <span class="tag">&lt;name&gt;</span>allure.link.tms.pattern<span class="tag">&lt;/name&gt;</span>
-                        <span class="tag">&lt;value&gt;</span>https://github.com/allure-framework/allure-docs/issues/{}<span class="tag">&lt;/value&gt;</span>
-                    <span class="tag">&lt;/property&gt;</span>
-                <span class="tag">&lt;/systemProperties&gt;</span>
-            <span class="tag">&lt;/configuration&gt;</span>
-        <span class="tag">&lt;/plugin&gt;</span>
-    <span class="tag">&lt;/plugins&gt;</span>
-<span class="tag">&lt;/build&gt;</span></code></pre>
-</div>
+<p>In order to specify the link pattern you can use the system property in the following format:
+<code>allure.link.my-link-type.pattern=https://example.org/custom/{}/path</code>. Allure will replace <code>{}</code> placeholders with
+value specified in annotation. For example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">$ mvn clean test -Dallure.link.tms.pattern=https://github.com/allure-framework/allure-docs/issues/{}</code></pre>
+<pre class="CodeRay highlight"><code data-lang="linenums">allure.link.mylink.pattern=https://example.org/mylink/{}
+allure.link.issue.pattern=https://example.org/issue/{}
+allure.link.tms.pattern=https://example.org/tms/{}</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Where <strong>{}</strong> is a placeholder for keys, specified in <strong>@TmsLink</strong> annotations.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1833,50 +2161,91 @@ you can use <strong>@TmsLink</strong> annotation. Simply specify the test case I
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
-<span class="annotation">@Severity</span>(SeverityLevel.CRITICAL)
-<span class="directive">public</span> <span class="type">void</span> testSomething() {
-     ...
-}</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td>
+  <td class="code"><pre><span class="keyword">package</span> <span class="namespace">org.example.tests</span>;
+
+<span class="keyword">import</span> <span class="include">org.junit.Test</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Severity</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.SeverityLevel</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyTest</span> {
+
+    <span class="annotation">@Test</span>
+    <span class="annotation">@Severity</span>(SeverityLevel.CRITICAL)
+    <span class="directive">public</span> <span class="type">void</span> testSomething() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        <span class="comment">// ...</span>
+    }
+
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_behaviours_mapping_2">Behaviours Mapping</h5>
 <div class="paragraph">
-<p>In some development approaches tests are classified by
-<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#user-story">stories</a>
-and <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#feature">features</a>.
-If you&#8217;re using this then you can annotate your test with <strong>@Story</strong> and <strong>@Feature</strong> annotations:</p>
+<p>In some development approaches tests are classified by Features and Stories. To add such mapping you
+can use <code>Epic</code>, <code>Feature</code> and <code>Stories</code> annotations:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
-<span class="annotation">@Feature</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">test-case-feature</span><span class="delimiter">&quot;</span></span>)
-<span class="annotation">@Story</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">test-case-story</span><span class="delimiter">&quot;</span></span>)
-<span class="directive">public</span> <span class="type">void</span> testSomething() {
-     ...
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Note that a single test may have multiple <strong>@Story</strong> and <strong>@Feature</strong> annotations.
-You will then be able to filter tests by specified features and stories in generated Allure report.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_flaky_tests_2">Flaky tests</h5>
-<div class="paragraph">
-<p>In order to attract developers' / QA&#8217;s attention to unstable tests, you can mark them with special <strong>@Flaky</strong> annotation.
-Such tests will have a <strong>bomb icon</strong> in generated html report.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
-<span class="annotation">@Flaky</span>
-<span class="directive">public</span> <span class="type">void</span> testSomething() {
-     ...
-}</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td>
+  <td class="code"><pre><span class="keyword">package</span> <span class="namespace">org.example.tests</span>;
+
+<span class="keyword">import</span> <span class="include">org.junit.Test</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Epic</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Feature</span>;
+<span class="keyword">import</span> <span class="include">io.qameta.allure.Story</span>;
+
+<span class="annotation">@Epic</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Allure examples</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Feature</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Junit 4 support</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyTest</span> {
+
+    <span class="annotation">@Test</span>
+    <span class="annotation">@Story</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Base support for bdd annotations</span><span class="delimiter">&quot;</span></span>)
+    <span class="annotation">@Story</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Advanced support for bdd annotations</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="type">void</span> testSomething() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        <span class="comment">// ...</span>
+    }
+
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -1885,59 +2254,94 @@ Such tests will have a <strong>bomb icon</strong> in generated html report.</p>
 <div class="sect2">
 <h3 id="_cucumber_jvm">5.3. Cucumber JVM</h3>
 <div class="sect3">
-<h4 id="_allure_cucumber_jvm_plugin">5.3.1. Allure Cucumber-JVM Plugin</h4>
+<h4 id="_installation_3">5.3.1. Installation</h4>
 <div class="paragraph">
-<p>This plugin allows to generate allure xml reports after cucumber-jvm test execution.</p>
+<p>The available latest version of <code>allure-testng</code>:</p>
 </div>
-<div class="sect4">
-<h5 id="_example_projects_junit_and_testng">Example projects (JUnit and TestNG)</h5>
-<div class="paragraph">
-<p>Example project is located at: <a href="https://github.com/allure-examples/allure-cucumber-jvm-example" class="bare">https://github.com/allure-examples/allure-cucumber-jvm-example</a></p>
-</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://img.shields.io/maven-central/v/io.qameta.allure/allure-cucumberjvm.svg" alt="Allure CucumberJVM">
 </div>
 </div>
-<div class="sect3">
-<h4 id="_installation_3">5.3.2. Installation</h4>
 <div class="sect4">
 <h5 id="_maven_3">Maven</h5>
 <div class="paragraph">
 <p>Simply add <code>allure-cucumber-jvm</code> plugin as dependency to your project and add it to CucumberOptions:</p>
 </div>
 <div class="listingblock">
+<div class="title">pom.xml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;project&gt;</span>
-...
-    <span class="tag">&lt;dependencies&gt;</span>
-        <span class="tag">&lt;dependency&gt;</span>
-            <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
-            <span class="tag">&lt;artifactId&gt;</span>allure-cucumber-jvm<span class="tag">&lt;/artifactId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>2.0-BETA2<span class="tag">&lt;/version&gt;</span>
-        <span class="tag">&lt;/dependency&gt;</span>
-    <span class="tag">&lt;/dependencies&gt;</span>
-        <span class="tag">&lt;build&gt;</span>
-        <span class="tag">&lt;plugins&gt;</span>
-            <span class="tag">&lt;plugin&gt;</span>
-                <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
-                <span class="tag">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="tag">&lt;/artifactId&gt;</span>
-                <span class="tag">&lt;version&gt;</span>2.19.1<span class="tag">&lt;/version&gt;</span>
-                <span class="tag">&lt;configuration&gt;</span>
-                    <span class="tag">&lt;testFailureIgnore&gt;</span>false<span class="tag">&lt;/testFailureIgnore&gt;</span>
-                    <span class="tag">&lt;argLine&gt;</span>
-                        -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
-                        -Dcucumber.options=&quot;--plugin io.qameta.allure.cucumberjvm.AllureCucumberJvm&quot;
-                    <span class="tag">&lt;/argLine&gt;</span>
-                <span class="tag">&lt;/configuration&gt;</span>
-                <span class="tag">&lt;dependencies&gt;</span>
-                    <span class="tag">&lt;dependency&gt;</span>
-                        <span class="tag">&lt;groupId&gt;</span>org.aspectj<span class="tag">&lt;/groupId&gt;</span>
-                        <span class="tag">&lt;artifactId&gt;</span>aspectjweaver<span class="tag">&lt;/artifactId&gt;</span>
-                        <span class="tag">&lt;version&gt;</span>1.8.4<span class="tag">&lt;/version&gt;</span>
-                    <span class="tag">&lt;/dependency&gt;</span>
-                <span class="tag">&lt;/dependencies&gt;</span>
-            <span class="tag">&lt;/plugin&gt;</span>
-        <span class="tag">&lt;/plugins&gt;</span>
-    <span class="tag">&lt;/build&gt;</span>
-<span class="tag">&lt;/project&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;properties&gt;</span>
+    <span class="tag">&lt;aspectj.version&gt;</span>1.8.10<span class="tag">&lt;/aspectj.version&gt;</span>
+<span class="tag">&lt;/properties&gt;</span>
+
+<span class="tag">&lt;dependencies&gt;</span>
+    <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>allure-cucumber-jvm<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>LATEST_VERSION<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+<span class="tag">&lt;/dependencies&gt;</span>
+
+<span class="tag">&lt;build&gt;</span>
+    <span class="tag">&lt;plugins&gt;</span>
+        <span class="tag">&lt;plugin&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>2.20<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;configuration&gt;</span>
+                <span class="tag">&lt;argLine&gt;</span>
+                    -javaagent:&quot;${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar&quot;
+                    -Dcucumber.options=&quot;--plugin io.qameta.allure.cucumberjvm.AllureCucumberJvm&quot;
+                <span class="tag">&lt;/argLine&gt;</span>
+            <span class="tag">&lt;/configuration&gt;</span>
+            <span class="tag">&lt;dependencies&gt;</span>
+                <span class="tag">&lt;dependency&gt;</span>
+                    <span class="tag">&lt;groupId&gt;</span>org.aspectj<span class="tag">&lt;/groupId&gt;</span>
+                    <span class="tag">&lt;artifactId&gt;</span>aspectjweaver<span class="tag">&lt;/artifactId&gt;</span>
+                    <span class="tag">&lt;version&gt;</span>${aspectj.version}<span class="tag">&lt;/version&gt;</span>
+                <span class="tag">&lt;/dependency&gt;</span>
+            <span class="tag">&lt;/dependencies&gt;</span>
+        <span class="tag">&lt;/plugin&gt;</span>
+    <span class="tag">&lt;/plugins&gt;</span>
+<span class="tag">&lt;/build&gt;</span></pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1948,18 +2352,18 @@ system property.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_features_4">5.3.3. Features</h4>
+<h4 id="_features_4">5.3.2. Features</h4>
 <div class="paragraph">
 <p>This adapter provides runtime integration allowing conversion of Gherkin dsl features into basic Allure features</p>
 </div>
 <div class="sect4">
-<h5 id="_title_2">Title</h5>
+<h5 id="_display_name">Display Name</h5>
 <div class="paragraph">
 <p>Titles for tests and suites are extracted at runtime from  <code>.feature</code> files</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_description_2">Description</h5>
+<h5 id="_description_3">Description</h5>
 <div class="paragraph">
 <p>Feature&#8217;s description appears on every scenario</p>
 </div>
@@ -1974,12 +2378,30 @@ system property.</p>
 <h5 id="_attachments_3">Attachments</h5>
 <div class="paragraph">
 <p>An attachment in Java code is simply a method annotated with <strong>@Attachment</strong> that returns either
-a <strong>String</strong> or <strong>byte[]</strong>, which should be added to the report. You can call this method from
-the one of the step definition methods or in after/before methods.</p>
+a <strong>String</strong> or <strong>byte[]</strong>, which should be added to the report:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Attachment</span>
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Attachment</span>;
+
+...
+
+<span class="annotation">@Attachment</span>
 <span class="directive">public</span> <span class="predefined-type">String</span> performedActions(ActionSequence actionSequence) {
     <span class="keyword">return</span> actionSequence.toString();
 }
@@ -1987,33 +2409,79 @@ the one of the step definition methods or in after/before methods.</p>
 <span class="annotation">@Attachment</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type = <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">byte</span><span class="type">[]</span> saveScreenshot(<span class="type">byte</span><span class="type">[]</span> screenShot) {
     <span class="keyword">return</span> screenShot;
-}</code></pre>
+}</pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If return type in a method annotated with <strong>@Attachment</strong> differs from <strong>String</strong> or <strong>byte[]</strong> we call <strong>toString()</strong><br>
-on return value to get attachment contents.<br></p>
+<p>Or you can use Allure helper methods</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.Allure</span>;
+
+...
+
+Allure.addAttachment(<span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment content</span><span class="delimiter">&quot;</span></span>);
+
+Path content = Paths.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">path-to-my-attachment-contnet</span><span class="delimiter">&quot;</span></span>);
+<span class="keyword">try</span> (InputSteam is = Files.newInputStream(content)) {
+    Allure.addAttachemnt(<span class="string"><span class="delimiter">&quot;</span><span class="content">My attachment</span><span class="delimiter">&quot;</span></span>, is);
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If return type in a method annotated with <strong>@Attachment</strong> differs from <strong>String</strong> or <strong>byte[]</strong> we call <strong>toString()</strong>
+on return value to get attachment contents.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>You can specify exact MIME type for each attached file using <strong>type</strong> parameter of <strong>@Attachment</strong> annotation<br>
-like shown above. However, there&#8217;s no need to explicitly specify attachment type for all attached files as Allure<br>
-by default analyses attachment contents and can determine attachment type automatically. You usually need to<br>
+<p>You can specify exact MIME type for each attached file using <strong>type</strong> parameter of <strong>@Attachment</strong> annotation
+like shown above. However there&#8217;s no need to explicitly specify attachment type for all attached files as Allure
+by default analyses attachment contents and can determine attachment type automatically. You usually need to
 specify attachment type when working with plain text files.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_issues_tracker_3">Issues Tracker</h5>
+<h5 id="_links_3">Links</h5>
 <div class="paragraph">
-<p>To pass issues to report, just add <code>@issue=&lt;ISSUE-NUMBER&gt;</code> on top of Scenario on Feature in your .feature file.<br>
-URL template for the issue tracker should be set via <code>allure.link.issue.pattern = <a href="https://example.org/{}" class="bare">https://example.org/{}</a></code> system<br>
-property.</p>
+<p>To pass issues to report, just add <code>@issue=&lt;ISSUE-NUMBER&gt;</code> on top of Scenario on Feature in your .feature file.</p>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_test_management_system_3">Test Management System</h5>
 <div class="paragraph">
-<p>To pass TMS links to report, just add <code>@tmsLink=&lt;TEST-CASE-ID&gt;</code> on top of Scenario on Feature in your .feature file.<br>
-URL template for the TMS should be set via <code>allure.link.tms.pattern = <a href="https://example.org/{}" class="bare">https://example.org/{}</a></code> system property.</p>
+<p>To pass TMS links to report, just add <code>@tmsLink=&lt;TEST-CASE-ID&gt;</code> on top of Scenario on Feature in your .feature file.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+do not forget to configure allure properties with link patterns.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect4">
@@ -2027,13 +2495,13 @@ If severity has wrong value it will be forced to normal (default).</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_scenario_attributes">Scenario Attributes</h5>
+<h5 id="_test_markers">Test markers</h5>
 <div class="paragraph">
 <p>Every Feature or Scenario can be annotated by following tags: <code>@flaky</code>, <code>@muted</code>, <code>@known</code></p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_before_after">Before/After</h5>
+<h5 id="_test_fixtures">Test fixtures</h5>
 <div class="paragraph">
 <p>All methods annotated by <code>@import cucumber.api.java.After</code> or <code>@cucumber.api.java.Before</code> annotations<br>
 will appear in the report as steps with method names.<br>
@@ -2045,10 +2513,7 @@ will be marked as failed.</p>
 <div class="sect4">
 <h5 id="_behaviours_mapping_3">Behaviours Mapping</h5>
 <div class="paragraph">
-<p>In some development approaches tests are classified by
-<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#feature">features</a>
-and <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#user-story">stories</a>.<br>
-Allure report for cucumber jvm uses information extracted from <code>Feature:</code> section</p>
+<p>Allure Cucumber JVM integration uses information extracted from <code>Feature:</code> section.</p>
 </div>
 </div>
 </div>
@@ -2095,7 +2560,7 @@ This plugin currently supports only Allure 1.4.x series.
 <div class="sect3">
 <h4 id="_features_5">6.1.2. Features</h4>
 <div class="sect4">
-<h5 id="_title_3">Title</h5>
+<h5 id="_title">Title</h5>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -2110,7 +2575,7 @@ Not implemented now
 </div>
 </div>
 <div class="sect4">
-<h5 id="_description_3">Description</h5>
+<h5 id="_description_4">Description</h5>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -2214,7 +2679,7 @@ Arguments are passed to <code>format</code> method in the same way they are pass
 </div>
 </div>
 <div class="sect4">
-<h5 id="_issues_tracker_4">Issues Tracker</h5>
+<h5 id="_issues_tracker">Issues Tracker</h5>
 <div class="paragraph">
 <p>Issues can be set for test.</p>
 </div>
@@ -2248,7 +2713,7 @@ Arguments are passed to <code>format</code> method in the same way they are pass
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_management_system_4">Test Management System</h5>
+<h5 id="_test_management_system">Test Management System</h5>
 <div class="paragraph">
 <p>Test cases links can be set for test also.</p>
 </div>
@@ -2280,7 +2745,7 @@ Arguments are passed to <code>format</code> method in the same way they are pass
 </div>
 </div>
 <div class="sect4">
-<h5 id="_parameters_2">Parameters</h5>
+<h5 id="_parameters">Parameters</h5>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -2699,7 +3164,7 @@ It wraps <a href="https://github.com/allure-framework/allure-js-commons">common 
 to basic Allure features implemented there.</p>
 </div>
 <div class="sect4">
-<h5 id="_title_4">Title</h5>
+<h5 id="_title_2">Title</h5>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -2714,7 +3179,7 @@ TBD it is not implemented currently
 </div>
 </div>
 <div class="sect4">
-<h5 id="_description_4">Description</h5>
+<h5 id="_description_5">Description</h5>
 <div class="paragraph">
 <p>In order to add a detailed description for a test you should call a <code>setDescription(description)</code> method
 where <strong>description</strong> is your string argument.</p>
@@ -2868,7 +3333,7 @@ text files.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_issues_tracker_5">Issues Tracker</h5>
+<h5 id="_issues_tracker_2">Issues Tracker</h5>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -2883,7 +3348,7 @@ Integration with bug tracker system is not currently implemented
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_management_system_5">Test Management System</h5>
+<h5 id="_test_management_system_2">Test Management System</h5>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -2898,7 +3363,7 @@ Integration with test management system is not currently implemented
 </div>
 </div>
 <div class="sect4">
-<h5 id="_parameters_3">Parameters</h5>
+<h5 id="_parameters_2">Parameters</h5>
 <div class="paragraph">
 <p>In order to add information about test method
 <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#parameter">parameters</a> you should use one of the methods:</p>
@@ -4891,7 +5356,7 @@ image::teamcity_plugin_usage.png[jenkins plugin install]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_gradle_2">13.5. Gradle</h3>
+<h3 id="_gradle_3">13.5. Gradle</h3>
 <div class="paragraph">
 <p>Allure plugin for Gradle allows integration of Allure listeners into TestNG,
  Junit4, Cucumber JVM and Spock frameworks in your Gradle-based projects, and also
@@ -5216,10 +5681,21 @@ Both compile <strong>class</strong> path and <strong>test class</strong> path ar
 </div>
 <div class="sect5">
 <h6 id="_or_specify_the_strong_properties_strong_in_configuration">Or specify the <strong>properties</strong> in configuration</h6>
-<div class="listingblock">
+<div id="allure-maven-plugin-configuration" class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;plugin&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;plugin&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>allure-maven<span class="tag">&lt;/artifactId&gt;</span>
     <span class="tag">&lt;configuration&gt;</span>
@@ -5227,7 +5703,8 @@ Both compile <strong>class</strong> path and <strong>test class</strong> path ar
            <span class="tag">&lt;allure.issues.tracker.pattern&gt;</span>http://example.com/%s<span class="tag">&lt;/allure.issues.tracker.pattern&gt;</span>
        <span class="tag">&lt;/properties&gt;</span>
     <span class="tag">&lt;/configuration&gt;</span>
-<span class="tag">&lt;/plugin&gt;</span></code></pre>
+<span class="tag">&lt;/plugin&gt;</span></pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -5236,9 +5713,15 @@ Both compile <strong>class</strong> path and <strong>test class</strong> path ar
 <div class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;configuration&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;configuration&gt;</span>
    <span class="tag">&lt;propertiesFilePath&gt;</span>path/to/your/allure.properties<span class="tag">&lt;/propertiesFilePath&gt;</span>
-<span class="tag">&lt;/configuration&gt;</span></code></pre>
+<span class="tag">&lt;/configuration&gt;</span></pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -5256,9 +5739,15 @@ extracts and put it into the <strong>.allure</strong> folder created in your pro
 <div class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;configuration&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;configuration&gt;</span>
     <span class="tag">&lt;reportVersion&gt;</span>2.0.1<span class="tag">&lt;/reportVersion&gt;</span>
-<span class="tag">&lt;/configuration&gt;</span></code></pre>
+<span class="tag">&lt;/configuration&gt;</span></pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5267,9 +5756,15 @@ extracts and put it into the <strong>.allure</strong> folder created in your pro
 <div class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;configuration&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;configuration&gt;</span>
     <span class="tag">&lt;allureDownloadUrl&gt;</span>https://example.com/allure/allure-2.0.1.zip<span class="tag">&lt;/allureDownloadUrl&gt;</span>
-<span class="tag">&lt;/configuration&gt;</span></code></pre>
+<span class="tag">&lt;/configuration&gt;</span></pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -5289,9 +5784,15 @@ or absolute (absolute only for report mojo).</p>
 <div class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;configuration&gt;</span>
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;configuration&gt;</span>
     <span class="tag">&lt;reportDirectory&gt;</span>allure-report<span class="tag">&lt;/reportDirectory&gt;</span>
-<span class="tag">&lt;/configuration&gt;</span></code></pre>
+<span class="tag">&lt;/configuration&gt;</span></pre></td>
+</tr></table></code></pre>
 </div>
 </div>
 </div>
@@ -6212,7 +6713,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-07-02 17:53:37 +00:00
+Last updated 2017-07-16 10:52:07 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
