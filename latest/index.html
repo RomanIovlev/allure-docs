@@ -5305,10 +5305,35 @@ image::teamcity_plugin_usage.png[jenkins plugin install]</p>
 <p>Install <a href="https://confluence.atlassian.com/display/UPM/Installing+add-ons">Allure Plugin</a> from "Plugin Manager Page".</p>
 </li>
 <li>
-<p>Download the latest version of allure-commandline.zip from github and extract to the desired directory.</p>
+<p>You can either:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>download the latest version of allure-commandline.zip from github and extract it on your Bamboo server</p>
 </li>
 <li>
-<p><a href="https://confluence.atlassian.com/bamboo/defining-a-new-executable-capability-289277164.html">Defining a new executable capability</a> with using the extraction directory.</p>
+<p>or allow Bamboo plugin to download Allure binary automatically for you.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Allure Bamboo Plugin will add the new executable server capability upon the installation. However you may decide to
+change the Allure version or to have multiple versions of Allure executable.</p>
+<div class="paragraph">
+<p>To <a href="https://confluence.atlassian.com/bamboo/defining-a-new-executable-capability-289277164.html">define a new executable
+capability</a> with using the extraction directory, you need to open "Executables" admin menu item and then select "add an
+executable as a server capability" link in the description. You need to select "Allure Report" as a capability type.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/bamboo_add_capability.png" alt="Add capability">
+</div>
+</div>
+<div class="paragraph">
+<p>Executable label defines the version of Allure executable, that will be downloaded automatically. Version should be set
+at the end of the label name (e.g. "Allure 2.3.1" or "allure 2.4-BETA1").</p>
+</div>
 </li>
 </ol>
 </div>
@@ -5318,24 +5343,38 @@ image::teamcity_plugin_usage.png[jenkins plugin install]</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the build <strong>configuration settings</strong>.</p>
-</li>
-<li>
-<p>Ensure that your build <a href="https://github.com/allure-framework/allure-core/wiki#gathering-information-about-tests)">generates Allure XML files</a>.</p>
-</li>
-<li>
-<p>Add Allure task to your job.</p>
+<p>Open "Allure Report" administration menu item under "PLANS" group.</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/bamboo_add_task.png" alt="Add Task in Bamboo">
+<img src="images/bamboo_admin_allure_report.png" alt="Allure Report Config">
 </div>
 </div>
 </li>
 <li>
-<p>Configure task - specify glob pattern to the folder where Allure should search for XML files.</p>
+<p>Configure "Allure local storage" if necessary. This defines a directory where built Allure reports will be stored.</p>
+<div class="paragraph">
+<p><strong>Please note</strong> that Allure Bamboo Plugin stores reports on a same filesystem where Bamboo server is running, and
+it does not clean the directory automatically. So you might need to configure the removal of the old reports manually.</p>
+</div>
+</li>
+<li>
+<p>You may decide to enable Allure Bamboo Plugin for all of your builds. In this case it will be trying to build a
+report for every failed build in your Bamboo instance by default. You can always turn it off/on for each particular
+plan later:</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/bamboo_task_fields.png" alt="Task configuration">
+<img src="images/bamboo_plan_configuration.png" alt="Plan configuration">
+</div>
+</div>
+</li>
+<li>
+<p>Ensure that your build <a href="https://github.com/allure-framework/allure-core/wiki#gathering-information-about-tests)">generates Allure result files</a>.</p>
+</li>
+<li>
+<p>For each correctly configured plan you should be able to see the "Allure Report" tab in the results:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/bamboo_allure_tab.png" alt="Allure Report Tab">
 </div>
 </div>
 </li>
@@ -5343,14 +5382,59 @@ image::teamcity_plugin_usage.png[jenkins plugin install]</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_usage_10">13.4.3. Usage</h4>
+<h4 id="_storing_allure_reports_in_aws_s3">13.4.3. Storing Allure reports in AWS S3</h4>
 <div class="paragraph">
-<p>When the build is done you will get Allure Report as a part of build artifacts.
-Сlick on <strong>Allure report</strong> artifact on the <strong>Artifacts</strong> tab:</p>
+<p>You may decide to store your artifacts and also Allure reports in Amazon S3 storage, which isn&#8217;t available in Bamboo by
+default. However you can enable this feature by adding "-Dbamboo.darkfeature.artifacthandlers=true" to the command line
+that you use to start up Bamboo instance. This will give you the ability to configure artifact handlers using
+"Artifact handlers" admin menu item and allow to configure AWS S3 as a primary storage for all of your artifacts
+(including built Allure reports).</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>"Artifact handlers" dark feature is not officially supported by Atlassian, so you&#8217;d be using it on your own risk.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_troubleshooting">13.4.4. Troubleshooting</h4>
+<div class="sect4">
+<h5 id="_no_artifacts_configured">No artifacts configured</h5>
+<div class="paragraph">
+<p>If you haven&#8217;t configured Allure artifacts correctly or a build does not generate allure results, you should see the
+following error:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/bamboo_view_artifact.png" alt="Allure artifact">
+<img src="images/bamboo_no_artifacts.png" alt="Allure no artifacts">
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_empty_report_tab">Empty report tab</h5>
+<div class="paragraph">
+<p>If a report has been generated successfully, but later has been removed, you should see the empty report tab.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_unknown_error">Unknown error</h5>
+<div class="paragraph">
+<p>If something went wrong during the Allure report generation, you should see the exception in the Allure tab. This is
+the important information if you decide to raise an issue in allure-bamboo issue tracker:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/bamboo_unknown_error.png" alt="Allure unknown error">
+</div>
 </div>
 </div>
 </div>
@@ -5798,7 +5882,7 @@ or absolute (absolute only for report mojo).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_usage_11">13.6.3. Usage</h4>
+<h4 id="_usage_10">13.6.3. Usage</h4>
 <div class="paragraph">
 <p>You can generate a report using one of the following command:</p>
 </div>
@@ -6713,7 +6797,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-08-28 14:51:40 +00:00
+Last updated 2017-09-03 10:21:38 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
