@@ -544,6 +544,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_features">4. Features</a>
 <ul class="sectlevel2">
 <li><a href="#_flaky_tests">4.1. Flaky tests</a></li>
+<li><a href="#_environment">4.2. Environment</a></li>
 </ul>
 </li>
 <li><a href="#_java">5. Java</a>
@@ -901,19 +902,22 @@ are sortable.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Statistics - overall report statistics</p>
+<p>Statistics - overall report statistics.</p>
 </li>
 <li>
-<p>Launches - if this report represents several test launches, statistics per launch will be shown here</p>
+<p>Launches - if this report represents several test launches, statistics per launch will be shown here.</p>
 </li>
 <li>
-<p>Behaviors - information on results aggregated according to stories and features</p>
+<p>Behaviors - information on results aggregated according to stories and features.</p>
 </li>
 <li>
-<p>Executors - information on test executors that were used to run the tests</p>
+<p>Executors - information on test executors that were used to run the tests.</p>
 </li>
 <li>
 <p>History Trend - if tests accumulated some historical data, it&#8217;s trend will be calculated and shown on the graph.</p>
+</li>
+<li>
+<p>Environment - information on test environment (see <a href="#_environment">how to define environment</a>).</p>
 </li>
 </ul>
 </div>
@@ -1053,6 +1057,39 @@ you can mark a whole test class as flaky as well.
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_environment">4.2. Environment</h3>
+<div class="paragraph">
+<p>To add information to Environment widget just create <code>environment.properties</code> (or <code>environment.xml</code>) file to <code>allure-results</code> directory before report generation.</p>
+</div>
+<div class="listingblock">
+<div class="title">environment.properties</div>
+<div class="content">
+<pre>Browser=Chrome
+Browser.Version=63.0
+Stand=Production</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">environment.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;environment&gt;</span>
+    <span class="tag">&lt;parameter&gt;</span>
+        <span class="tag">&lt;key&gt;</span>Browser<span class="tag">&lt;/key&gt;</span>
+        <span class="tag">&lt;value&gt;</span>Chrome<span class="tag">&lt;/value&gt;</span>
+    <span class="tag">&lt;/parameter&gt;</span>
+    <span class="tag">&lt;parameter&gt;</span>
+        <span class="tag">&lt;key&gt;</span>Browser.Version<span class="tag">&lt;/key&gt;</span>
+        <span class="tag">&lt;value&gt;</span>63.0<span class="tag">&lt;/value&gt;</span>
+    <span class="tag">&lt;/parameter&gt;</span>
+    <span class="tag">&lt;parameter&gt;</span>
+        <span class="tag">&lt;key&gt;</span>Stand<span class="tag">&lt;/key&gt;</span>
+        <span class="tag">&lt;value&gt;</span>Production<span class="tag">&lt;/value&gt;</span>
+    <span class="tag">&lt;/parameter&gt;</span>
+<span class="tag">&lt;/environment&gt;</span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -3620,7 +3657,7 @@ def test_foo():
 </div>
 </div>
 <div class="sect4">
-<h5 id="_environment">Environment</h5>
+<h5 id="_environment_2">Environment</h5>
 <div class="paragraph">
 <p>You can provide test <a href="https://github.com/allure-framework/allure-core/wiki/Environment">environment parameters</a> such as report name, browser or test server address to allure test report.</p>
 </div>
@@ -7440,7 +7477,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-12-27 17:18:45 +00:00
+Last updated 2018-01-21 11:48:25 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
