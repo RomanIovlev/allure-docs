@@ -554,6 +554,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_junit_5">5.2. jUnit 5</a></li>
 <li><a href="#_testng">5.3. TestNG</a></li>
 <li><a href="#_cucumber_jvm">5.4. Cucumber JVM</a></li>
+<li><a href="#_selenide">5.5. Selenide</a></li>
 </ul>
 </li>
 <li><a href="#_python">6. Python</a>
@@ -606,8 +607,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_jenkins">13.2. Jenkins</a></li>
 <li><a href="#_teamcity">13.3. TeamCity</a></li>
 <li><a href="#_bamboo">13.4. Bamboo</a></li>
-<li><a href="#_gradle_4">13.5. Gradle</a></li>
-<li><a href="#_maven_5">13.6. Maven</a></li>
+<li><a href="#_gradle_5">13.5. Gradle</a></li>
+<li><a href="#_maven_6">13.6. Maven</a></li>
 </ul>
 </li>
 <li><a href="#_allure_plugins_system">14. Allure Plugins System</a>
@@ -3263,6 +3264,90 @@ will be marked as failed.</p>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_selenide">5.5. Selenide</h3>
+<div class="sect3">
+<h4 id="_installation_5">5.5.1. Installation</h4>
+<div class="paragraph">
+<p>The available latest version of <code>allure-selenide</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://img.shields.io/maven-central/v/io.qameta.allure/allure-selenide.svg" alt="Allure TestNG">
+</div>
+</div>
+<div class="sect4">
+<h5 id="_maven_5">Maven</h5>
+<div class="paragraph">
+<p>You need to add the following to your <strong>pom.xml</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="title">pom.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td>
+  <td class="code"><pre><span class="tag">&lt;dependencies&gt;</span>
+    ...
+    <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>allure-selenide<span class="tag">&lt;/artifactId&gt;</span>
+        <span class="tag">&lt;version&gt;</span>LAST_VERSION<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;scope&gt;</span>test<span class="tag">&lt;/scope&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+    ...
+<span class="tag">&lt;/dependencies&gt;</span></pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_gradle_4">Gradle</h5>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre>...
+compile <span class="key">group</span>: <span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure</span><span class="delimiter">'</span></span>, <span class="key">name</span>: <span class="string"><span class="delimiter">'</span><span class="content">allure-selenide</span><span class="delimiter">'</span></span>, <span class="key">version</span>: <span class="string"><span class="delimiter">'</span><span class="content">2.0-BETA22</span><span class="delimiter">'</span></span>
+...</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_listener">Listener</h5>
+<div class="paragraph">
+<p>And add listener to Selenide:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.selenide.AllureSelenide</span>;
+...
+SelenideLogger.addListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">AllureSelenide</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> AllureSelenide());</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3844,7 +3929,7 @@ def test_foo():
 <p>A plugin for Allure report generation from Jasmine tests.</p>
 </div>
 <div class="sect3">
-<h4 id="_installation_5">7.1.1. Installation</h4>
+<h4 id="_installation_6">7.1.1. Installation</h4>
 <div class="sect4">
 <h5 id="_from_jasmine2">From Jasmine2</h5>
 <div class="paragraph">
@@ -4515,7 +4600,7 @@ It is most powerful feature of allure, because it allow to write self-documented
 </div>
 </div>
 <div class="sect3">
-<h4 id="_installation_6">7.4.2. Installation</h4>
+<h4 id="_installation_7">7.4.2. Installation</h4>
 <div class="paragraph">
 <p>Assuming that you have <a href="http://mochajs.org/">mocha</a> installed, install reporter via npm:</p>
 </div>
@@ -4623,7 +4708,7 @@ designed to store more verbose data, like HTTP-links to test page or used packag
 <p>This page describes Allure adaptor usage for <a href="http://cukes.info/">Cucumber</a> framework.</p>
 </div>
 <div class="sect3">
-<h4 id="_installation_7">8.1.1. Installation</h4>
+<h4 id="_installation_8">8.1.1. Installation</h4>
 <div class="paragraph">
 <p>Add this line to your application&#8217;s Gemfile:</p>
 </div>
@@ -5551,7 +5636,7 @@ report generation.</p>
 <p>Using Allure command line tool you can generate the report from existing Allure results.</p>
 </div>
 <div class="sect3">
-<h4 id="_installation_8">13.1.1. Installation</h4>
+<h4 id="_installation_9">13.1.1. Installation</h4>
 <div class="paragraph">
 <p>Allure CLI is a Java application so it&#8217;s available for all platforms. You have to manually install Java 1.8 before using Allure CLI</p>
 </div>
@@ -5697,7 +5782,7 @@ If you are want to use the report from different location you can use <strong>-o
 <div class="sect2">
 <h3 id="_jenkins">13.2. Jenkins</h3>
 <div class="sect3">
-<h4 id="_installation_9">13.2.1. Installation</h4>
+<h4 id="_installation_10">13.2.1. Installation</h4>
 <div class="paragraph">
 <p>First part of installation guide concerns global installation of Allure plugin and it&#8217;s
 commandline tool. Note that unlike to previous versions Jenkins Allure Plugin since 2.11
@@ -5998,7 +6083,7 @@ allure([
 <div class="sect2">
 <h3 id="_teamcity">13.3. TeamCity</h3>
 <div class="sect3">
-<h4 id="_installation_10">13.3.1. Installation</h4>
+<h4 id="_installation_11">13.3.1. Installation</h4>
 <div class="paragraph">
 <p><a href="https://confluence.jetbrains.com/display/TCD9/Installing+Additional+Plugins">Install Allure TeamCity plugin</a>.
 Copy the <strong>allure.zip</strong> from (<a href="https://bintray.com/qameta/generic/allure2">latest release</a>
@@ -6049,7 +6134,7 @@ image::teamcity_plugin_usage.png[jenkins plugin install]</p>
 <div class="sect2">
 <h3 id="_bamboo">13.4. Bamboo</h3>
 <div class="sect3">
-<h4 id="_installation_11">13.4.1. Installation</h4>
+<h4 id="_installation_12">13.4.1. Installation</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -6199,7 +6284,7 @@ the important information if you decide to raise an issue in allure-bamboo issue
 </div>
 </div>
 <div class="sect2">
-<h3 id="_gradle_4">13.5. Gradle</h3>
+<h3 id="_gradle_5">13.5. Gradle</h3>
 <div class="paragraph">
 <p>Allure plugin for Gradle allows integration of Allure listeners into TestNG,
  Junit4, Cucumber JVM and Spock frameworks in your Gradle-based projects, and also
@@ -6484,12 +6569,12 @@ in the default browser.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_maven_5">13.6. Maven</h3>
+<h3 id="_maven_6">13.6. Maven</h3>
 <div class="paragraph">
 <p>This plugin generates Allure report by <a href="https://github.com/allure-framework/allure-core/wiki#gathering-information-about-tests">existing XML files</a> during the Maven build process.</p>
 </div>
 <div class="sect3">
-<h4 id="_installation_12">13.6.1. Installation</h4>
+<h4 id="_installation_13">13.6.1. Installation</h4>
 <div class="paragraph">
 <p>Add allure-maven-plugin to your pom.xml file build section.</p>
 </div>
@@ -7561,7 +7646,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-01-21 16:17:09 +00:00
+Last updated 2018-02-13 10:56:20 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
