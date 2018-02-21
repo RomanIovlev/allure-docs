@@ -3341,7 +3341,7 @@ compile <span class="key">group</span>: <span class="string"><span class="delimi
 </pre></td>
   <td class="code"><pre><span class="keyword">import</span> <span class="include">io.qameta.allure.selenide.AllureSelenide</span>;
 ...
-SelenideLogger.addListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">AllureSelenide</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> AllureSelenide());</pre></td>
+SelenideLogger.addListener(<span class="string"><span class="delimiter">&quot;</span><span class="content">AllureSelenide</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> AllureSelenide().screenshots(<span class="predefined-constant">true</span>).savePageSource(<span class="predefined-constant">false</span>));</pre></td>
 </tr></table></code></pre>
 </div>
 </div>
@@ -7637,7 +7637,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-02-15 14:57:57 +00:00
+Last updated 2018-02-21 13:08:39 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
