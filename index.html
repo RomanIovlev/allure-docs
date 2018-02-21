@@ -5722,7 +5722,7 @@ Read more about <a href="https://github.com/allure-framework/allure-debian">Allu
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">$ allure generate directory-with-results/</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">$ allure generate &lt;directory-with-results&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5730,7 +5730,7 @@ Read more about <a href="https://github.com/allure-framework/allure-debian">Allu
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">$ allure generate directory-with-results/ -o directory-with-report</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">$ allure generate &lt;directory-with-results&gt; -o &lt;directory-with-report&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5745,8 +5745,20 @@ Read more about <a href="https://github.com/allure-framework/allure-debian">Allu
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">$ allure report open</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">$ allure open &lt;directory-with-report&gt;</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can also use <code>allure serve</code> command, to generate the report to temporary folder and open it.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect4">
@@ -7637,7 +7649,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-02-21 13:08:39 +00:00
+Last updated 2018-02-21 13:09:01 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
