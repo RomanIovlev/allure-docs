@@ -6081,11 +6081,14 @@ allure([
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><a href="https://confluence.jetbrains.com/display/TCD9/Installing+Additional+Plugins">Install Allure TeamCity plugin</a>.</p>
+<p><a href="https://confluence.jetbrains.com/display/TCD10/Installing+Additional+Plugins">Install Allure TeamCity plugin</a>.</p>
 </li>
 <li>
-<p>Copy the <strong>allure.zip</strong> from (<a href="https://bintray.com/qameta/generic/allure2">latest release</a>
-to the &lt;<a href="https://confluence.jetbrains.com/display/TCD9/TeamCity+Data+Directory">TeamCity Data Directory</a>&gt;/plugins/.tools directory.
+<p>Download the latest <code>allure-x.x.zip</code> from (<a href="https://bintray.com/qameta/generic/allure2">latest release</a></p>
+</li>
+<li>
+<p>Copy downloaded file
+to the &lt;<a href="https://confluence.jetbrains.com/display/TCD10/TeamCity+Data+Directory">TeamCity Data Directory</a>&gt;/plugins/.tools directory as <code>allure-commandline.zip</code>.
 No server restart needed for this step.</p>
 </li>
 </ol>
@@ -6103,9 +6106,12 @@ No server restart needed for this step.</p>
 </li>
 <li>
 <p>Go to <strong>Build steps</strong> and add the <strong>Allure Report</strong> build step.</p>
+</li>
+<li>
+<p>(optional) In <strong>Execute step:</strong> select <strong>Even if some of the previous steps failed</strong> to generate report for failing tests as well.</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/teamcity_plugin_add_build_step.png" alt="TeamCity Plugin Install">
+<img src="images/teamcity_plugin_add_build_step.png" alt="TeamCity plugin add step">
 </div>
 </div>
 </li>
@@ -6113,7 +6119,7 @@ No server restart needed for this step.</p>
 <p>Configure the step.</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/teamcity_plugin_configure_build_step.png" alt="jenkins plugin install">
+<img src="images/teamcity_plugin_configure_build_step.png" alt="TeamCity plugin install">
 </div>
 </div>
 </li>
@@ -6127,7 +6133,7 @@ No server restart needed for this step.</p>
 <h4 id="_usage_9"><a class="anchor" href="#_usage_9"></a>13.3.3. Usage</h4>
 <div class="paragraph">
 <p>When the build is done you will get Allure Report as a part of build artifacts – simply open the index.html.
-image::teamcity_plugin_usage.png[jenkins plugin install]</p>
+image::teamcity_plugin_usage.png[TeamCity plugin usage]</p>
 </div>
 </div>
 </div>
@@ -7655,7 +7661,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-10 12:34:48 +00:00
+Last updated 2018-03-13 17:06:15 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
