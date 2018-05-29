@@ -2000,7 +2000,7 @@ allure {
     aspectjweaver = <span class="predefined-constant">true</span>
     aspectjVersion = <span class="string"><span class="delimiter">'</span><span class="content">1.8.10</span><span class="delimiter">'</span></span>
 
-    useJunit5 {
+    useJUnit5 {
        version = <span class="string"><span class="delimiter">'</span><span class="content">2.0-BETA21</span><span class="delimiter">'</span></span>
     }
 }
@@ -6828,7 +6828,7 @@ a parameter in all of the 3 methods above.</p>
 <h3 id="_js_plugin_api_overview"><a class="anchor" href="#_js_plugin_api_overview"></a>14.2. JS Plugin API overview</h3>
 <div class="paragraph">
 <p>Front-end side of the Allure is built using <a href="http://backbonejs.org/">BackboneJS</a> framework. So some basic
-understanding of it&#8217;s internal mechanisms may sometimes be necessary.</p>
+understanding of its internal mechanisms may sometimes be necessary.</p>
 </div>
 <div class="paragraph">
 <p>Api is accessible from the <code>allure.api</code> global object. Let&#8217;s take a look at the list of functions it provides:</p>
@@ -6837,7 +6837,7 @@ understanding of it&#8217;s internal mechanisms may sometimes be necessary.</p>
 <ul>
 <li>
 <p><code>addTab(tabName, {title, icon, route, onEnter = notFound} = {})</code> - can be used to define a new tab for the report
-which will appear on the left pane menu with name <strong>tabName</strong>, it&#8217;s icon will be defined by a css styles provided
+which will appear on the left pane menu with name <strong>tabName</strong>, its icon will be defined by a css styles provided
 in the <strong>icon</strong> string, <strong>route</strong> will define an address for a new tab page. <strong>onEnter</strong> should be a function, that
 instantiates a View class managing your new tab&#8217;s representation.</p>
 </li>
@@ -6854,7 +6854,7 @@ See more in the docs for <a href="https://www.npmjs.com/package/i18next-text">i1
 </li>
 <li>
 <p><code>addWidget(name, Widget)</code> - is a way to create a new widget on the Overview page of the report. <strong>name</strong> will define
-it&#8217;s displayed name, and <strong>Widget</strong> is a <code>View</code> to be added to the widgets grid.
+its displayed name, and <strong>Widget</strong> is a <code>View</code> to be added to the widgets grid.
 Api provides you with a base class for a widget at <code>allure.components.WidgetStatusView</code>, which we will examine
 later in the Behaviors plugin section. But you may design a widget for your own needs extending from
 <code>Backbone.Marionette.View</code>, just keep in mind that this widget definition is designed to pop up the data
@@ -6910,7 +6910,7 @@ e.g. a widget or an additional tab.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Here in <code>src\dist\static</code> all the static <code>.js</code> and <code>.css</code> files are stored, and everything under <code>src\main\java</code>
+<p>Here in <code>src/dist/static</code> all the static <code>.js</code> and <code>.css</code> files are stored, and everything under <code>src/main/java</code>
 is a data processing Java code. <code>allure-plugin.yml</code> - is a configuration file.</p>
 </div>
 <div class="paragraph">
@@ -7351,12 +7351,12 @@ of the commandline distribution.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>\my-plugin
+<pre class="CodeRay highlight"><code>/my-plugin
     allure-plugin.yml
     plugin.jar
-    \lib
+    /lib
         dependency.jar
-    \static
+    /static
         styles.css
         index.js</code></pre>
 </div>
@@ -7367,10 +7367,10 @@ of the commandline distribution.</p>
 <p><strong>plugin.jar</strong> - is a jar with your compiled plugin classes</p>
 </li>
 <li>
-<p><strong>\lib</strong> - all of your pugin&#8217;s dependencies should be placed in here</p>
+<p><strong>/lib</strong> - all of your pugin&#8217;s dependencies should be placed in here</p>
 </li>
 <li>
-<p><strong>\static</strong> - a folder containing all static <code>.js</code> and <code>.css</code> files.</p>
+<p><strong>/static</strong> - a folder containing all static <code>.js</code> and <code>.css</code> files.</p>
 </li>
 </ul>
 </div>
@@ -7419,7 +7419,7 @@ dependencies {
 <div class="paragraph">
 <p>Here in <code>plugins</code> folder plugins distributions to use at the report generation reside. By default several plugins
 are already added to the Allure. Their usage is managed by default build profile configuration file`/config/allure.yml`.
-In this file, under the section <code>plugins</code> plugin folders to use are listed, so it&#8217;s contents should look like this:</p>
+In this file, under the section <code>plugins</code> plugin folders to use are listed, so its contents should look like this:</p>
 </div>
 <div id="app-listing" class="listingblock">
 <div class="title">allure.yml</div>
@@ -7570,7 +7570,7 @@ Allure distribution by default. You can find plugin sources in the
 <p><strong>BehavioursPlugin.java</strong></p>
 </div>
 <div class="paragraph">
-<p>This plugin creates a different representation for the test results tree, that is why it&#8217;s <code>BehaviorsPlugin</code> class
+<p>This plugin creates a different representation for the test results tree, that is why its <code>BehaviorsPlugin</code> class
  inherits from a base class providing tree aggregation - <code>AbstractTreeAggregator</code> and implements a <code>Widget</code>
  interface to prepare the data for a widget on the Overview report dashboard.</p>
 </div>
@@ -7661,7 +7661,7 @@ with junit test results, a report will be generated.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-13 17:06:15 +00:00
+Last updated 2018-05-29 12:59:09 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
